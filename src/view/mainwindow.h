@@ -3,6 +3,7 @@
 
 #include <QKeyEvent>
 #include <QMainWindow>
+#include "QDebug"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,11 +20,12 @@ public:
 
 private slots:
   void on_button_clicked();
+  void on_res();
+
 
 
 private:
   void keyPressEvent(QKeyEvent *event);
-  void on_res();
 
   int brace_opened = 0;
   Ui::MainWindow *ui;
