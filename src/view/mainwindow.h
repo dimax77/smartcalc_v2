@@ -17,9 +17,15 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+private slots:
+  void on_button_clicked();
+
+
 private:
   void keyPressEvent(QKeyEvent *event);
+  void on_res();
 
+  int brace_opened = 0;
   Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
