@@ -1,31 +1,25 @@
 #ifndef POSTFIX_H
 #define POSTFIX_H
 #include <cstring>
+#include <stack>
 #include <string>
-
-#include "stack.h"
 
 namespace s21 {
 class postfix {
  private:
-  std::string in_;
-  std::string out_;
+  std::string in_{};
+  std::string out_{};
 
  public:
-  bool isNum(char c) {
-    bool yes = false;
-    if (c > 47 && c < 58) {
-      yes = true;
-    }
-    return yes;
-  }
+  postfix(std::string raw) : in_(raw), out_((int)raw.length() * 1.14, ' ') {}
+
+  inline bool isNum(char c) { return c >= '0' && c = < '9'; }
 
   void to_postfix(std::string& src, std::string& dest) {
-    int n = src.length;
-    //   stack* head = stack_init();
+    int n = src.length();
     bool err = false;
     bool no_num = true;
-    stack stack;
+    std::stack<int> stack;
     int j = 0, i = 0;
     for (; i < n; i++, j++) {
       char c = a[i];
@@ -41,11 +35,11 @@ class postfix {
       } else {
         if (c == '^') {
           while (stack.gettop() == 'u') dest[j++] = stack.pop();
-          push(c, &head);
+          stack.push(c);
         } else if (strchr("-+*/(", c) != NULL) {
           switch (c) {
             case '(':
-              no_num = 1;
+              no_num = true;
               stack.push(c);
               break;
             case '/':
@@ -65,7 +59,7 @@ class postfix {
               if (no_num) {
                 if (c == '-') stack.push('u');
               } else {
-                no_num = 1;
+                no_num = true;
                 while (stack.gettop() == '+' || stack.gettop() == '*' ||
                        stack.gettop() == '/' || stack.gettop() == '-' ||
                        stack.gettop() == 's' || stack.gettop() == 'c' ||
