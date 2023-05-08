@@ -24,13 +24,11 @@ class stack {
     return val;
   }
   int gettop() const {
-    int res = 0;
+    int res = -1;
     if (head_) {
       res = head_->val_;
-    } else {
-      throw("Stack is empty");
     }
-    return res;
+    return -1;
   }
 
  private:
