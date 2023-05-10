@@ -1,23 +1,15 @@
 #ifndef POSTFIX_H
 #define POSTFIX_H
+#include <cmath>
 #include <cstring>
 #include <stack>
 #include <string>
 
 namespace s21 {
 class postfix {
- private:
-  std::string in_{};
-  std::string out_{};
-  std::stack<char> stack_;
-
  public:
-  postfix() {}
-
   inline bool is_num(char c) { return c >= '0' && c <= '9'; }
-
   void set_input_string(const std::string& raw) { in_ = raw; }
-  std::string get_raw_string() { return in_; }
   std::string get_res_string() { return out_; }
   bool to_postfix() {
     int n = in_.length();
@@ -169,17 +161,12 @@ class postfix {
             out_[j] = stack_.top();
             stack_.pop();
             j++;
-            // if (stack_.empty()) {
-            //   err = true;
-            //   break;
-            // }
           }
           if (stack_.empty()) {
             err = true;
           } else {
             stack_.pop();
           }
-          // if (err) break;
         } else {
           err = true;
           break;
@@ -197,7 +184,98 @@ class postfix {
     }
     return err;
   }
-
+  double eval(double x) {
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    double n1, n2, res;
+    int count = out_.length();
+    for (int i = 0; i < count; ++i) {
+      if (is_num(out_[i])) {
+        char num[count];
+        int j = 0;
+        while (is_num(out_[i])) {
+          num[j++] = out_[i++];
+          if (out_[i] == '.') {
+            num[j++] = '.';
+            ++i;
+          } else if (out_[i] == ',') {
+            num[j++] = '.';
+            ++i;
+          }
+        }
+        i = i - 1;
+        num[j] = '\0';
+        double n = atof(num);
+        stack_double.push(n);
+      } else if (out_[i] == 'x') {
+        stack_double.push(x);
+      } else if (strchr("-+*/mp", out_[i]) != NULL) {
+        n2 = stack_double.top();
+        stack_double.pop();
+        n1 = stack_double.top();
+        stack_double.pop();
+        switch (out_[i]) {
+          case '+':
+            res = n1 + n2;
+            break;
+          case '-':
+            res = n1 - n2;
+            break;
+          case '*':
+            res = n1 * n2;
+            break;
+          case '/':
+            res = n1 / n2;
+            break;
+          case 'm':
+            res = (int)n1 % (int)n2;
+            break;
+          case 'p':
+            res = pow(n1, n2);
+            break;
+        }
+        stack_double.push(res);
+      } else if (strchr("aciloqstuv", out_[i]) != NULL) {
+        n1 = stack_double.top();
+        stack_double.pop();
+        switch (out_[i]) {
+          case 'a':
+            res = acos(n1);
+            break;
+          case 'c':
+            res = cos(n1);
+            break;
+          case 's':
+            res = sin(n1);
+            break;
+          case 't':
+            res = tan(n1);
+            break;
+          case 'i':
+            res = asin(n1);
+            break;
+          case 'q':
+            res = sqrt(n1);
+            break;
+          case 'o':
+            res = log10f(n1);
+            break;
+          case 'l':
+            res = log(n1);
+            break;
+          case 'v':
+            res = atan(n1);
+            break;
+          case 'u':
+            res = n1 * (-1);
+            break;
+        }
+        stack_double.push(res);
+      }
+    }
+    res = stack_double.top();
+    stack_double.pop();
+    return res;
+  }
   void clear() {  // Отбрасываю пробелы для тестов сравнения строк
     int count = out_.length();
     std::string tmp;
@@ -207,7 +285,12 @@ class postfix {
     }
     out_ = tmp;
   }
-};
-};  // namespace s21
 
+ private:
+  std::string in_{};
+  std::string out_{};
+  std::stack<char> stack_;
+  std::stack<double> stack_double;
+};
+};      // namespace s21
 #endif  // POSTFIX_H
