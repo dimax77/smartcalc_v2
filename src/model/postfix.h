@@ -9,83 +9,98 @@ class postfix {
  private:
   std::string in_{};
   std::string out_{};
+  std::stack<char> stack_;
 
  public:
-  postfix(std::string raw) : in_(raw), out_((int)raw.length() * 1.14, ' ') {}
+  postfix() {}
 
-  inline bool isNum(char c) { return c >= '0' && c = < '9'; }
+  inline bool is_num(char c) { return c >= '0' && c <= '9'; }
 
-  void to_postfix(std::string& src, std::string& dest) {
-    int n = src.length();
+  void set_input_string(const std::string& raw) { in_ = raw; }
+  std::string get_raw_string() { return in_; }
+  std::string get_res_string() { return out_; }
+  bool to_postfix() {
+    int n = in_.length();
+    out_.resize(n * 2, ' ');
     bool err = false;
     bool no_num = true;
-    std::stack<int> stack;
     int j = 0, i = 0;
     for (; i < n; i++, j++) {
-      char c = a[i];
-      if (isNum(c)) {
-        dest[j] = c;
+      char c = in_[i];
+      if (is_num(c) || c == 'x') {
+        out_[j] = c;
         no_num = false;
       } else if (c == '.') {
-        if (!isNum(dest[j - 1])) dest[j++] = '0';
-        dest[j] = c;
-      } else if (c == 'x') {
-        dest[j] = c;
-        no_num = false;
+        if (!is_num(out_[j - 1])) out_[j++] = '0';
+        out_[j] = c;
       } else {
         if (c == '^') {
-          while (stack.gettop() == 'u') dest[j++] = stack.pop();
-          stack.push(c);
+          if (!stack_.empty()) {
+            while (stack_.top() == 'u') {
+              out_[j++] = stack_.top();
+              stack_.pop();
+              if (stack_.empty()) break;
+            }
+          }
+          stack_.push(c);
         } else if (strchr("-+*/(", c) != NULL) {
           switch (c) {
             case '(':
               no_num = true;
-              stack.push(c);
+              stack_.push(c);
               break;
             case '/':
             case '*':
-              while (stack.gettop() == '*' || stack.gettop() == '/' ||
-                     stack.gettop() == 's' || stack.gettop() == 'c' ||
-                     stack.gettop() == 't' || stack.gettop() == 'q' ||
-                     stack.gettop() == 'l' || stack.gettop() == 'o' ||
-                     stack.gettop() == 'm' || stack.gettop() == 'a' ||
-                     stack.gettop() == '^' || stack.gettop() == 'u') {
-                dest[j++] = stack.pop();
+              if (!stack_.empty()) {
+                while (stack_.top() == '*' || stack_.top() == '/' ||
+                       stack_.top() == 's' || stack_.top() == 'c' ||
+                       stack_.top() == 't' || stack_.top() == 'q' ||
+                       stack_.top() == 'l' || stack_.top() == 'o' ||
+                       stack_.top() == 'm' || stack_.top() == 'a' ||
+                       stack_.top() == '^' || stack_.top() == 'u') {
+                  out_[j++] = stack_.top();
+                  stack_.pop();
+                  if (stack_.empty()) break;
+                }
               }
-              stack.push(c);
+              stack_.push(c);
               break;
             case '+':
             case '-':
               if (no_num) {
-                if (c == '-') stack.push('u');
+                if (c == '-') stack_.push('u');
               } else {
                 no_num = true;
-                while (stack.gettop() == '+' || stack.gettop() == '*' ||
-                       stack.gettop() == '/' || stack.gettop() == '-' ||
-                       stack.gettop() == 's' || stack.gettop() == 'c' ||
-                       stack.gettop() == 't' || stack.gettop() == 'q' ||
-                       stack.gettop() == 'l' || stack.gettop() == 'o' ||
-                       stack.gettop() == 'm' || stack.gettop() == 'a' ||
-                       stack.gettop() == '^' || stack.gettop() == 'u') {
-                  dest[j++] = stack.pop();
+                if (!stack_.empty()) {
+                  while (stack_.top() == '+' || stack_.top() == '*' ||
+                         stack_.top() == '/' || stack_.top() == '-' ||
+                         stack_.top() == 's' || stack_.top() == 'c' ||
+                         stack_.top() == 't' || stack_.top() == 'q' ||
+                         stack_.top() == 'l' || stack_.top() == 'o' ||
+                         stack_.top() == 'm' || stack_.top() == 'a' ||
+                         stack_.top() == '^' || stack_.top() == 'u') {
+                    out_[j++] = stack_.top();
+                    stack_.pop();
+                    if (stack_.empty()) break;
+                  }
                 }
-                stack.push(c);
+                stack_.push(c);
               }
               break;
           }
         } else if (strchr("acmlst", c) != NULL) {
           switch (c) {
             case 'a':
-              if (m[i + 1] == 'c' && m[i + 2] == 'o' && m[i + 3] == 's') {
-                stack.push('a');
+              if (in_[i + 1] == 'c' && in_[i + 2] == 'o' && in_[i + 3] == 's') {
+                stack_.push('a');
                 i += 3;
-              } else if (m[i + 1] == 's' && m[i + 2] == 'i' &&
-                         m[i + 3] == 'n') {
-                stack.push('i');
+              } else if (in_[i + 1] == 's' && in_[i + 2] == 'i' &&
+                         in_[i + 3] == 'n') {
+                stack_.push('i');
                 i += 3;
-              } else if (m[i + 1] == 't' && m[i + 2] == 'a' &&
-                         m[i + 3] == 'n') {
-                stack.push('v');
+              } else if (in_[i + 1] == 't' && in_[i + 2] == 'a' &&
+                         in_[i + 3] == 'n') {
+                stack_.push('v');
                 i += 3;
               } else {
                 err = 1;
@@ -93,8 +108,8 @@ class postfix {
               }
               break;
             case 'c':
-              if (m[i + 1] == 'o' && m[i + 2] == 's') {
-                stack.push(c);
+              if (in_[i + 1] == 'o' && in_[i + 2] == 's') {
+                stack_.push(c);
                 i = i + 2;
               } else {
                 err = 1;
@@ -102,80 +117,95 @@ class postfix {
               }
               break;
             case 'm':
-              if (m[i + 1] == 'o' && m[i + 2] == 'd') {
+              if (in_[i + 1] == 'o' && in_[i + 2] == 'd') {
                 if (no_num) {
-                  err = 1;
+                  err = true;
                   break;
                 }
-                stack.push('m');
+                stack_.push('m');
                 i += 2;
               } else {
-                err = 1;
+                err = true;
                 break;
               }
               break;
             case 'l':
-              if (m[i + 1] == 'n') {
-                stack.push(c);
+              if (in_[i + 1] == 'n') {
+                stack_.push(c);
                 i = i + 1;
-              } else if (m[i + 1] == 'o' && m[i + 2] == 'g') {
-                stack.push('o');
+              } else if (in_[i + 1] == 'o' && in_[i + 2] == 'g') {
+                stack_.push('o');
                 i += 2;
               } else {
-                err = 1;
+                err = true;
                 break;
               }
               break;
             case 's':
-              if (m[i + 1] == 'q' && m[i + 2] == 'r' && m[i + 3] == 't') {
+              if (in_[i + 1] == 'q' && in_[i + 2] == 'r' && in_[i + 3] == 't') {
                 c = 'q';
-                stack.push(c);
+                stack_.push(c);
                 i = i + 3;
-              } else if (m[i + 1] == 'i' && m[i + 2] == 'n') {
-                stack.push(c);
+              } else if (in_[i + 1] == 'i' && in_[i + 2] == 'n') {
+                stack_.push(c);
                 i = i + 2;
               } else {
-                err = 1;
+                err = true;
                 break;
               }
               break;
             case 't':
-              if (m[i + 1] == 'a' && m[i + 2] == 'n') {
-                stack.push(c);
+              if (in_[i + 1] == 'a' && in_[i + 2] == 'n') {
+                stack_.push(c);
                 i = i + 2;
               } else {
-                err = 1;
+                err = true;
                 break;
               }
               break;
           }
         } else if (c == ')') {
-          while (stack.gettop() != '(') {
-            dest[j] = stack.pop();
+          while (!stack_.empty() && stack_.top() != '(') {
+            out_[j] = stack_.top();
+            stack_.pop();
             j++;
-            if (stack.gettop() == -1) {
-              err = 1;
-              break;
-            }
+            // if (stack_.empty()) {
+            //   err = true;
+            //   break;
+            // }
           }
-          if (err) break;
-          stack.pop();
+          if (stack_.empty()) {
+            err = true;
+          } else {
+            stack_.pop();
+          }
+          // if (err) break;
         } else {
-          err = 1;
+          err = true;
           break;
         }
       }
     }
-    while (stack.gettop() != -1) {
-      char rest = stack.pop();
-      if (rest == '(') err = 1;
-      dest[j++] = rest;
+    while (!stack_.empty()) {
+      char rest = stack_.top();
+      stack_.pop();
+      if (rest == '(') err = true;
+      out_[j++] = rest;
     }
-    dest[j] = 0;
     if (err) {
-      strcpy(dest, "error");
+      out_ = "error";
     }
     return err;
+  }
+
+  void clear() {  // Отбрасываю пробелы для тестов сравнения строк
+    int count = out_.length();
+    std::string tmp;
+    for (int i = 0; i < count; i++) {
+      if (out_[i] == ' ') continue;
+      tmp += out_[i];
+    }
+    out_ = tmp;
   }
 };
 };  // namespace s21
