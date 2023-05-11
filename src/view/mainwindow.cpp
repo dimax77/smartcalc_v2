@@ -18,7 +18,7 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
   if (event->key() == Qt::Key_Q && event->modifiers() == Qt::ControlModifier) {
-    qApp->quit(); // закрыть приложение
+    qApp->quit(); // закрыть приложение в  Ubuntu по <Ctrl-Q>
   }
 }
 
@@ -48,4 +48,10 @@ void MainWindow::on_button_clicked() {
   }
 }
 
-void MainWindow::on_res() {}
+void MainWindow::on_res() {
+  if (ui->lineEdit_2->text() != "") {
+    ctrl_->translate(ui->lineEdit_2->text().toStdString());
+    double result = ctrl_->get_res(0.0);
+    ui->lineEdit_2->setText(QString::number(result));
+  }
+}

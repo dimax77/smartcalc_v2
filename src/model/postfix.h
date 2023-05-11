@@ -11,6 +11,7 @@ class postfix {
   inline bool is_num(char c) { return c >= '0' && c <= '9'; }
   void set_input_string(const std::string& raw) { in_ = raw; }
   std::string get_res_string() { return out_; }
+  double get_res(){return res_;}
   bool to_postfix() {
     int n = in_.length();
     out_.resize(n * 2, ' ');
@@ -194,17 +195,19 @@ class postfix {
         int j = 0;
         while (is_num(out_[i])) {
           num[j++] = out_[i++];
+          
           if (out_[i] == '.') {
-            num[j++] = '.';
+            num[j++] = ',';
             ++i;
           } else if (out_[i] == ',') {
-            num[j++] = '.';
+            num[j++] = ',';
             ++i;
           }
         }
-        i = i - 1;
+        // i = i - 1;
         num[j] = '\0';
         double n = atof(num);
+        std::cout<<n<<std::endl;
         stack_double.push(n);
       } else if (out_[i] == 'x') {
         stack_double.push(x);
@@ -269,11 +272,13 @@ class postfix {
             res = n1 * (-1);
             break;
         }
+        std::cout<<res<<std::endl;
         stack_double.push(res);
       }
     }
     res = stack_double.top();
     stack_double.pop();
+    res_ = res;
     return res;
   }
   void clear() {  // Отбрасываю пробелы для тестов сравнения строк
@@ -291,6 +296,7 @@ class postfix {
   std::string out_{};
   std::stack<char> stack_;
   std::stack<double> stack_double;
+  double res_;
 };
 };      // namespace s21
 #endif  // POSTFIX_H

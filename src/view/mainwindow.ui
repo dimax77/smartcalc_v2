@@ -34,6 +34,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="lineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="layoutDirection">
            <enum>Qt::RightToLeft</enum>
           </property>
@@ -837,7 +840,7 @@ font-weight: bold;</string>
      <x>0</x>
      <y>0</y>
      <width>564</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
