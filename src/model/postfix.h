@@ -1,49 +1,55 @@
 #ifndef POSTFIX_H
 #define POSTFIX_H
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <stack>
 #include <string>
 
 namespace s21 {
 class postfix {
- public:
+public:
   inline bool is_num(char c) { return c >= '0' && c <= '9'; }
-  void set_input_string(const std::string& raw) { in_ = raw; }
+  void set_input_string(const std::string &raw) { in_ = raw; }
   std::string get_res_string() { return out_; }
-  double get_res(){return res_;}
+  double get_res() { return res_; }
   bool to_postfix() {
-    int n = in_.length();
-    out_.resize(n * 2, ' ');
     bool err = false;
-    bool no_num = true;
-    int j = 0, i = 0;
-    for (; i < n; i++, j++) {
-      char c = in_[i];
-      if (is_num(c) || c == 'x') {
-        out_[j] = c;
-        no_num = false;
-      } else if (c == '.') {
-        if (!is_num(out_[j - 1])) out_[j++] = '0';
-        out_[j] = c;
-      } else {
-        if (c == '^') {
-          if (!stack_.empty()) {
-            while (stack_.top() == 'u') {
-              out_[j++] = stack_.top();
-              stack_.pop();
-              if (stack_.empty()) break;
+
+    try {
+      int n = in_.length();
+      out_.resize(n * 2, ' ');
+      bool no_num = true;
+      int j = 0, i = 0;
+      for (; i < n; i++, j++) {
+        char c = in_[i];
+        if (is_num(c) || c == 'x') {
+          out_[j] = c;
+          no_num = false;
+        } else if (c == '.' || c == ',') {
+          if (!is_num(out_[j - 1]))
+            out_[j++] = '0';
+          out_[j] = c;
+        } else {
+          if (c == '^') {
+            if (!stack_.empty()) {
+              while (stack_.top() == 'u') {
+                out_[j++] = stack_.top();
+                stack_.pop();
+                if (stack_.empty())
+                  break;
+              }
             }
-          }
-          stack_.push(c);
-        } else if (strchr("-+*/(", c) != NULL) {
-          switch (c) {
+            stack_.push(c);
+          } else if (strchr("-+*/(", c) != NULL) {
+            switch (c) {
             case '(':
               no_num = true;
               stack_.push(c);
               break;
             case '/':
             case '*':
+              no_num = true;
               if (!stack_.empty()) {
                 while (stack_.top() == '*' || stack_.top() == '/' ||
                        stack_.top() == 's' || stack_.top() == 'c' ||
@@ -53,7 +59,8 @@ class postfix {
                        stack_.top() == '^' || stack_.top() == 'u') {
                   out_[j++] = stack_.top();
                   stack_.pop();
-                  if (stack_.empty()) break;
+                  if (stack_.empty())
+                    break;
                 }
               }
               stack_.push(c);
@@ -61,7 +68,8 @@ class postfix {
             case '+':
             case '-':
               if (no_num) {
-                if (c == '-') stack_.push('u');
+                if (c == '-')
+                  stack_.push('u');
               } else {
                 no_num = true;
                 if (!stack_.empty()) {
@@ -74,15 +82,16 @@ class postfix {
                          stack_.top() == '^' || stack_.top() == 'u') {
                     out_[j++] = stack_.top();
                     stack_.pop();
-                    if (stack_.empty()) break;
+                    if (stack_.empty())
+                      break;
                   }
                 }
                 stack_.push(c);
               }
               break;
-          }
-        } else if (strchr("acmlst", c) != NULL) {
-          switch (c) {
+            }
+          } else if (strchr("acmlst", c) != NULL) {
+            switch (c) {
             case 'a':
               if (in_[i + 1] == 'c' && in_[i + 2] == 'o' && in_[i + 3] == 's') {
                 stack_.push('a');
@@ -156,38 +165,43 @@ class postfix {
                 break;
               }
               break;
-          }
-        } else if (c == ')') {
-          while (!stack_.empty() && stack_.top() != '(') {
-            out_[j] = stack_.top();
-            stack_.pop();
-            j++;
-          }
-          if (stack_.empty()) {
-            err = true;
+            }
+          } else if (c == ')') {
+            while (!stack_.empty() && stack_.top() != '(') {
+              out_[j] = stack_.top();
+              stack_.pop();
+              j++;
+            }
+            if (stack_.empty()) {
+              err = true;
+            } else {
+              stack_.pop();
+            }
           } else {
-            stack_.pop();
+            err = true;
+            break;
           }
-        } else {
-          err = true;
-          break;
         }
       }
-    }
-    while (!stack_.empty()) {
-      char rest = stack_.top();
-      stack_.pop();
-      if (rest == '(') err = true;
-      out_[j++] = rest;
-    }
-    if (err) {
-      out_ = "error";
+      while (!stack_.empty()) {
+        char rest = stack_.top();
+        stack_.pop();
+        if (rest == '(')
+          err = true;
+        out_[j++] = rest;
+      }
+      if (err) {
+        out_ = "error";
+      }
+      in_ = "";
+    } catch (...) {
+      throw("Error");
     }
     return err;
   }
   double eval(double x) {
     setlocale(LC_ALL, "ru_RU.UTF-8");
-    double n1, n2, res;
+    double n1{}, n2{}, res{};
     int count = out_.length();
     for (int i = 0; i < count; ++i) {
       if (is_num(out_[i])) {
@@ -195,7 +209,6 @@ class postfix {
         int j = 0;
         while (is_num(out_[i])) {
           num[j++] = out_[i++];
-          
           if (out_[i] == '.') {
             num[j++] = ',';
             ++i;
@@ -204,10 +217,8 @@ class postfix {
             ++i;
           }
         }
-        // i = i - 1;
-        num[j] = '\0';
-        double n = atof(num);
-        std::cout<<n<<std::endl;
+        i = i - 1;
+        const double n = std::stod(num);
         stack_double.push(n);
       } else if (out_[i] == 'x') {
         stack_double.push(x);
@@ -217,86 +228,87 @@ class postfix {
         n1 = stack_double.top();
         stack_double.pop();
         switch (out_[i]) {
-          case '+':
-            res = n1 + n2;
-            break;
-          case '-':
-            res = n1 - n2;
-            break;
-          case '*':
-            res = n1 * n2;
-            break;
-          case '/':
-            res = n1 / n2;
-            break;
-          case 'm':
-            res = (int)n1 % (int)n2;
-            break;
-          case 'p':
-            res = pow(n1, n2);
-            break;
+        case '+':
+          res = n1 + n2;
+          break;
+        case '-':
+          res = n1 - n2;
+          break;
+        case '*':
+          res = n1 * n2;
+          break;
+        case '/':
+          res = n1 / n2;
+          break;
+        case 'm':
+          res = (int)n1 % (int)n2;
+          break;
+        case 'p':
+          res = pow(n1, n2);
+          break;
         }
         stack_double.push(res);
       } else if (strchr("aciloqstuv", out_[i]) != NULL) {
         n1 = stack_double.top();
         stack_double.pop();
         switch (out_[i]) {
-          case 'a':
-            res = acos(n1);
-            break;
-          case 'c':
-            res = cos(n1);
-            break;
-          case 's':
-            res = sin(n1);
-            break;
-          case 't':
-            res = tan(n1);
-            break;
-          case 'i':
-            res = asin(n1);
-            break;
-          case 'q':
-            res = sqrt(n1);
-            break;
-          case 'o':
-            res = log10f(n1);
-            break;
-          case 'l':
-            res = log(n1);
-            break;
-          case 'v':
-            res = atan(n1);
-            break;
-          case 'u':
-            res = n1 * (-1);
-            break;
+        case 'a':
+          res = acos(n1);
+          break;
+        case 'c':
+          res = cos(n1);
+          break;
+        case 's':
+          res = sin(n1);
+          break;
+        case 't':
+          res = tan(n1);
+          break;
+        case 'i':
+          res = asin(n1);
+          break;
+        case 'q':
+          res = sqrt(n1);
+          break;
+        case 'o':
+          res = log10f(n1);
+          break;
+        case 'l':
+          res = log(n1);
+          break;
+        case 'v':
+          res = atan(n1);
+          break;
+        case 'u':
+          res = n1 * (-1);
+          break;
         }
-        std::cout<<res<<std::endl;
         stack_double.push(res);
       }
     }
     res = stack_double.top();
     stack_double.pop();
+    out_ = "";
     res_ = res;
     return res;
   }
-  void clear() {  // Отбрасываю пробелы для тестов сравнения строк
+  void clear() { // Отбрасываю пробелы для тестов сравнения строк
     int count = out_.length();
     std::string tmp;
     for (int i = 0; i < count; i++) {
-      if (out_[i] == ' ') continue;
+      if (out_[i] == ' ')
+        continue;
       tmp += out_[i];
     }
     out_ = tmp;
   }
 
- private:
+private:
   std::string in_{};
   std::string out_{};
   std::stack<char> stack_;
   std::stack<double> stack_double;
   double res_;
 };
-};      // namespace s21
-#endif  // POSTFIX_H
+};     // namespace s21
+#endif // POSTFIX_H

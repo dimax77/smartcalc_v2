@@ -55,3 +55,37 @@ void MainWindow::on_res() {
     ui->lineEdit_2->setText(QString::number(result));
   }
 }
+
+void MainWindow::on_pushButton_31_clicked() {
+  credit credit;
+  credit.setModal(1);
+  credit.exec();
+}
+
+void MainWindow::on_pushButton_32_clicked() {
+  //   deposit deposit;
+  //   deposit.setModal(1);
+  //   deposit.exec();
+  //   //    qDebug() << "dep pressed";
+  //   //    dep *depo = new dep();
+  //   //    depo->show();
+}
+
+void MainWindow::on_pushButton_33_clicked() {
+  //   graph graph;
+  //   graph.setup(ui->lineEdit->text());
+  //   graph.setModal(1);
+  //   graph.exec();
+}
+
+// void Dialog::on_lineEdit_textChanged(const QString &text)
+//{
+//     qDebug() << text;
+//     QRegExp x("^.*x.*$");
+//     if(x.indexIn(text) != -1) {
+//         qDebug() << "x entered";
+//         ui->lineEdit_2->setEnabled(1);
+//     } else {
+//         ui->lineEdit_2->setEnabled(0);
+//     }
+// }

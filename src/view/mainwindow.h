@@ -3,6 +3,9 @@
 
 #include "../controller/controller.h"
 #include "QDebug"
+#include "credit.h"
+//#include "deposit.h"
+//#include "graph.h"
 #include <QKeyEvent>
 #include <QMainWindow>
 
@@ -22,6 +25,9 @@ public:
 private slots:
   void on_button_clicked();
   void on_res();
+  void on_pushButton_31_clicked();
+  void on_pushButton_32_clicked();
+  void on_pushButton_33_clicked();
 
 private:
   void keyPressEvent(QKeyEvent *event);

@@ -11,16 +11,21 @@ CONFIG += c++11
 SOURCES += \
     controller/controller.cc \
     main.cpp \
-    model/model.cc \
+    view/credit.cpp \
     view/mainwindow.cpp
 
 HEADERS += \
     controller/controller.h \
     model/model.h \
+    model/postfix.h \
+    view/credit.h \
     view/mainwindow.h
 
 FORMS += \
+    view/credit.ui \
     view/mainwindow.ui
+
+INCLUDEPATH += /libs/
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
