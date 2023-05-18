@@ -1,9 +1,12 @@
 #include "mainwindow.h"
+#include "QValidator"
+#include "iostream"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(s21::controller *ctrl, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), ctrl_(ctrl) {
   ui->setupUi(this);
+  ui->lineEdit->setValidator(new QDoubleValidator);
   for (int i = 1; i < 31; i++) {
     QString button_name = QString("pushButton_") + QString::number(i);
     QPushButton *button = findChild<QPushButton *>(button_name);
@@ -25,34 +28,36 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 void MainWindow::on_button_clicked() {
   QPushButton *mybutton = (QPushButton *)sender();
   QString text = mybutton->text();
-  qDebug() << text;
-  if (text == "x^y") {
-    ui->lineEdit_2->setText(ui->lineEdit_2->text() += "^");
-  } else if (text == "()") {
-    if (!brace_opened) {
-      ui->lineEdit_2->setText(ui->lineEdit_2->text() += "(");
-      brace_opened = 1;
+  if (!text.isEmpty()) {
+    if (text == "C") {
+      ui->lineEdit->clear();
+      ui->lineEdit_2->clear();
+      raw_input_expression_.clear();
+    } else if (text == "=") {
+      eval(raw_input_expression_);
     } else {
-      ui->lineEdit_2->setText(ui->lineEdit_2->text() += ")");
-      brace_opened = 0;
+      if (text == "x^y") {
+        ui->lineEdit_2->setText(ui->lineEdit_2->text() += "^");
+
+      } else if (text == "sqrt") {
+        ui->lineEdit_2->setText(ui->lineEdit_2->text() += "√");
+
+      } else {
+        ui->lineEdit_2->setText(ui->lineEdit_2->text() += text);
+      }
+      raw_input_expression_ += mybutton->accessibleName();
+      std::cout << raw_input_expression_.toStdString() << std::endl;
     }
-  } else if (text == "C") {
-    ui->lineEdit_2->clear();
-  } else if (text == "+/-") {
-    ui->lineEdit_2->setText(ui->lineEdit_2->text() += "(-");
-    brace_opened = 1;
-  } else if (text == "=") {
-    on_res();
-  } else {
-    ui->lineEdit_2->setText(ui->lineEdit_2->text() += text);
   }
 }
 
-void MainWindow::on_res() {
-  if (ui->lineEdit_2->text() != "") {
-    ctrl_->translate(ui->lineEdit_2->text().toStdString());
-    double result = ctrl_->get_res(0.0);
+void MainWindow::eval(QString text) {
+  try {
+    ctrl_->translate(text.toStdString());
+    double result = ctrl_->get_res(x_);
     ui->lineEdit_2->setText(QString::number(result));
+  } catch (...) {
+    ui->lineEdit_2->setText("Error");
   }
 }
 
@@ -72,20 +77,26 @@ void MainWindow::on_pushButton_32_clicked() {
 }
 
 void MainWindow::on_pushButton_33_clicked() {
-  //   graph graph;
-  //   graph.setup(ui->lineEdit->text());
-  //   graph.setModal(1);
-  //   graph.exec();
+  graph graph;
+  //       graph.setup(ui->lineEdit->text());
+  //       graph.setModal(1);
+  //       graph.exec();
 }
 
-// void Dialog::on_lineEdit_textChanged(const QString &text)
-//{
-//     qDebug() << text;
-//     QRegExp x("^.*x.*$");
-//     if(x.indexIn(text) != -1) {
-//         qDebug() << "x entered";
-//         ui->lineEdit_2->setEnabled(1);
-//     } else {
-//         ui->lineEdit_2->setEnabled(0);
-//     }
-// }
+void MainWindow::on_pushButton_clicked() {
+  ui->lineEdit_2->setText(ui->lineEdit_2->text() += 'x');
+  raw_input_expression_ += 'x';
+}
+
+void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
+  QRegExp x("^.*x.*$");
+  if (x.indexIn(text) != -1) {
+    ui->lineEdit->setEnabled(true);
+  } else {
+    ui->lineEdit->setEnabled(false);
+  }
+}
+
+void MainWindow::on_lineEdit_textChanged(const QString &text) {
+  x_ = text.toDouble();
+}

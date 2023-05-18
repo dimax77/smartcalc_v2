@@ -5,7 +5,7 @@
 #include "QDebug"
 #include "credit.h"
 //#include "deposit.h"
-//#include "graph.h"
+#include "graph.h"
 #include <QKeyEvent>
 #include <QMainWindow>
 
@@ -24,16 +24,21 @@ public:
 
 private slots:
   void on_button_clicked();
-  void on_res();
+  void eval(QString raw_expression);
   void on_pushButton_31_clicked();
   void on_pushButton_32_clicked();
   void on_pushButton_33_clicked();
+  void on_lineEdit_textChanged(const QString &text);
+  void on_lineEdit_2_textChanged(const QString &text);
+
+  void on_pushButton_clicked();
 
 private:
   void keyPressEvent(QKeyEvent *event);
 
-  int brace_opened = 0;
   Ui::MainWindow *ui;
   s21::controller *ctrl_;
+  QString raw_input_expression_{};
+  double x_{};
 };
 #endif // MAINWINDOW_H

@@ -14,9 +14,9 @@ public:
   std::string get_res_string() { return out_; }
   double get_res() { return res_; }
   bool to_postfix() {
+    out_ = "";
     bool err = false;
 
-    try {
       int n = in_.length();
       out_.resize(n * 2, ' ');
       bool no_num = true;
@@ -194,9 +194,7 @@ public:
         out_ = "error";
       }
       in_ = "";
-    } catch (...) {
-      throw("Error");
-    }
+   
     return err;
   }
   double eval(double x) {
@@ -288,7 +286,7 @@ public:
     }
     res = stack_double.top();
     stack_double.pop();
-    out_ = "";
+    
     res_ = res;
     return res;
   }

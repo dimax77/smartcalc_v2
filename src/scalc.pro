@@ -12,6 +12,7 @@ SOURCES += \
     controller/controller.cc \
     main.cpp \
     view/credit.cpp \
+    view/graph.cpp \
     view/mainwindow.cpp
 
 HEADERS += \
@@ -19,10 +20,12 @@ HEADERS += \
     model/model.h \
     model/postfix.h \
     view/credit.h \
+    view/graph.h \
     view/mainwindow.h
 
 FORMS += \
     view/credit.ui \
+    view/graph.ui \
     view/mainwindow.ui
 
 INCLUDEPATH += /libs/
