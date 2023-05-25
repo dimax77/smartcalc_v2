@@ -53,8 +53,11 @@ void MainWindow::on_button_clicked() {
 
 void MainWindow::eval(QString text) {
   try {
+    std::string tmp = text.toStdString();
+    std::cout << tmp << std::endl;
     ctrl_->translate(text.toStdString());
     double result = ctrl_->get_res(x_);
+    std::cout << result << std::endl;
     ui->lineEdit_2->setText(QString::number(result));
   } catch (...) {
     ui->lineEdit_2->setText("Error");

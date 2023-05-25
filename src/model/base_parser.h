@@ -1,33 +1,24 @@
-// Function aliases:
-// c: cos   a: acos   l: ln       m: mod
-// s: sin   i: asin   o: log      q: sqrt
-// t: tan   v: atan   u: unar '-' ^: pow
+#ifndef _BASE_PARSER_H_
+#define _BASE_PARSER_H_
 
-#ifndef _PARSER_H_
-#define _PARSER_H_
-
-#include <cstring>
 #include <list>
-#include <stack>
+#include <stdexcept>
 #include <string>
 
 namespace s21 {
 
-class ConvertToPostfix {
+class BaseParser {
+ protected:
   std::string in_{};
-  std::list<std::string> output_tokens_{};
   std::string acceptable_tokens_after_digit_ = "-+*/)m^";
   std::string acceptable_tokens_after_op_ = "x0123456789cstaivloq(";
   std::string postfix_string_{};
   std::stack<char> operators_{};
+  std::list<std::string> output_tokens_{};
 
-  inline bool is_func(char c) { return strchr("cstaivloq", c); }
-  inline bool is_operator(char c) { return strchr("-+*/^m", c); }
+  bool is_operator(char c) { return strchr("-+*/^m", c) != nullptr; }
 
-  void move_operator_to_output_tokens() {
-    output_tokens_.push_back(std::string(1, operators_.top()));
-    operators_.pop();
-  }
+  bool is_func(char c) { return strchr("cstaivloq", c) != nullptr; }
 
   int precedence(char op) {
     if (op == '+' || op == '-') {
@@ -43,6 +34,11 @@ class ConvertToPostfix {
     }
   }
 
+  void move_operator_to_output_tokens() {
+    output_tokens_.push_back(std::string(1, operators_.top()));
+    operators_.pop();
+  }
+
   void processNumber(std::size_t& idx, std::size_t& temp_idx, bool& no_num,
                      std::size_t size) {
     double n = std::stod(in_.substr(idx), &temp_idx);
@@ -52,7 +48,7 @@ class ConvertToPostfix {
     if (idx + 1 < size) {
       if (acceptable_tokens_after_digit_.find(in_[idx + 1]) ==
           std::string::npos) {
-        throw std::runtime_error("Malformed expression.");
+        throw std::runtime_error("Malformed expression in number.");
       }
     }
   }
@@ -62,7 +58,7 @@ class ConvertToPostfix {
       operators_.push(c);
       no_num = true;
     } else {
-      throw std::runtime_error("Malformed expression.");
+      throw std::runtime_error("Malformed expression in function.");
     }
   }
 
@@ -71,7 +67,7 @@ class ConvertToPostfix {
       operators_.push('u');
     } else {
       if (acceptable_tokens_after_op_.find(in_[idx + 1]) == std::string::npos) {
-        throw std::runtime_error("Malformed expression.");
+        throw std::runtime_error("Malformed expression in operator.");
       } else {
         while (precedence(c) <= precedence(operators_.top())) {
           move_operator_to_output_tokens();
@@ -84,7 +80,7 @@ class ConvertToPostfix {
 
   void processOpenBrace(std::size_t idx) {
     if (idx > 0 && (isdigit(in_[idx - 1]) || in_[idx - 1] == '.')) {
-      throw std::runtime_error("Malformed expression.");
+      throw std::runtime_error("Malformed expression in open brace.");
     }
     operators_.push('(');
   }
@@ -102,50 +98,15 @@ class ConvertToPostfix {
   void processVariable() { output_tokens_.push_back("x"); }
 
  public:
-  void set_input_string(std::string raw) { in_ = raw; }
+  virtual ~BaseParser(){};
 
-  void translate() {
-    std::size_t size = in_.length(), idx{}, temp_idx{};
-    bool no_num = true;
-    operators_.push('S');
-    while (idx < size) {
-      char c = in_[idx];
-      if (isdigit(c)) {
-        processNumber(idx, temp_idx, no_num, size);
-      } else if (is_func(c)) {
-        processFunction(c, idx, no_num);
-      } else if (is_operator(c)) {
-        processOperator(c, idx, no_num);
-      } else if (c == '(') {
-        processOpenBrace(idx);
-      } else if (c == ')') {
-        processCloseBrace();
-      } else if (c == 'x') {
-        processVariable();
-        no_num = false;
-      } else {
-        throw std::runtime_error("Unknown symbol");
-      }
-      idx += 1;
-    }
-    while (operators_.top() != 'S') {
-      if (operators_.top() == '(')
-        throw std::runtime_error("Unmatched braces.");
-      move_operator_to_output_tokens();
-    }
-    operators_.pop();
-  }
+  virtual void set_input_string(const std::string& raw) = 0;
 
-  std::string postfix_string() {
-    while (!output_tokens_.empty()) {
-      postfix_string_ += output_tokens_.front();
-      postfix_string_ += " ";
-      output_tokens_.pop_front();
-    }
-    return postfix_string_;
-  }
+  virtual void translate() = 0;
+
+  virtual std::string postfix_string() = 0;
 };
 
 }  // namespace s21
 
-#endif  // _PARSER_H_
+#endif  // _BASE_PARSER_H_

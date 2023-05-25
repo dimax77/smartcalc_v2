@@ -1,8 +1,8 @@
-#ifndef S21CALC_MODEL_H
-#define S21CALC_MODEL_H
-#include "postfix.h"
+#ifndef _MODEL_H
+#define _MODEL_H
+#include "calculator.h"
 
 namespace s21 {
-class model : public postfix {};
+class model : public Calculator {};
 };      // namespace s21
-#endif  // S21CALC_MODEL_H
+#endif  // _MODEL_H

@@ -13,8 +13,9 @@ public:
   double get_res(double x) { return model_->eval(x); }
   bool translate(const std::string in) {
     model_->set_input_string(in);
-    return !model_->to_postfix();
-    ;
+    model_->translate();
+    model_->postfix_string();
+    return 0;
   }
 };
 }; // namespace s21
