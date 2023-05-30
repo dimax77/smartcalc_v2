@@ -3,8 +3,8 @@
 // s: sin   i: asin   o: log      q: sqrt
 // t: tan   v: atan   u: unar '-' ^: pow
 
-#ifndef _CALCULATOR_H_
-#define _CALCULATOR_H_
+#ifndef CALCULATOR_H_
+#define CALCULATOR_H_
 
 #include <cctype>
 #include <cmath>
@@ -18,10 +18,10 @@
 namespace s21 {
 
 class Calculator : public BaseParser {
- public:
+public:
   ~Calculator() override{};
 
-  void set_input_string(const std::string& raw) override { in_ = raw; }
+  void set_input_string(const std::string &raw) override { in_ = raw; }
 
   void translate() override {
     postfix_string_ = "";
@@ -67,99 +67,99 @@ class Calculator : public BaseParser {
   }
 
   double eval(double x) {
-    double n1{}, n2{}, res{};
+    double number{}, res{};
     int count = postfix_string_.length();
     for (int i = 0; i < count; ++i) {
       if (isdigit(postfix_string_[i])) {
         std::size_t temp_idx{};
-        n1 = std::stod(postfix_string_.substr(i), &temp_idx);
-        stack_double.push(n1);
+        number = std::stod(postfix_string_.substr(i), &temp_idx);
+        stack_double_.push(number);
         i += temp_idx - 1;
       } else if (postfix_string_[i] == 'x') {
-        stack_double.push(x);
-      } else if (strchr("-+*/mp", postfix_string_[i]) != NULL) {
-        n2 = stack_double.top();
-        stack_double.pop();
-        n1 = stack_double.top();
-        stack_double.pop();
-        stack_double.push(evalOperation(postfix_string_[i], n1, n2));
-      } else if (strchr("aciloqstuv", postfix_string_[i]) != NULL) {
-        n1 = stack_double.top();
-        stack_double.pop();
-        stack_double.push(evalFunction(postfix_string_[i], n1));
+        stack_double_.push(x);
+      } else if (strchr("-+*/m^", postfix_string_[i]) != nullptr) {
+        stack_double_.push(evalOperation(postfix_string_[i]));
+      } else if (strchr("aciloqstuv", postfix_string_[i]) != nullptr) {
+        stack_double_.push(evalFunction(postfix_string_[i]));
       }
     }
-    res = stack_double.top();
-    stack_double.pop();
+    res = stack_double_.top();
+    stack_double_.pop();
     return res;
   }
 
- private:
-  std::stack<double> stack_double;
+private:
+  std::stack<double> stack_double_;
 
-  double evalOperation(char operation, double value1, double value2) {
-    double res{};
+  double evalOperation(char operation) {
+    double value1{}, value2{}, res{};
+    value2 = stack_double_.top();
+    stack_double_.pop();
+    value1 = stack_double_.top();
+    stack_double_.pop();
     switch (operation) {
-      case '+':
-        res = value1 + value2;
-        break;
-      case '-':
-        res = value1 - value2;
-        break;
-      case '*':
-        res = value1 * value2;
-        break;
-      case '/':
-        res = value1 / value2;
-        break;
-      case 'm':
-        res = (int)value1 % (int)value2;
-        break;
-      case '^':
-        res = pow(value1, value2);
-        break;
+    case '+':
+      res = value1 + value2;
+      break;
+    case '-':
+      res = value1 - value2;
+      break;
+    case '*':
+      res = value1 * value2;
+      break;
+    case '/':
+      res = value1 / value2;
+      break;
+    case 'm':
+      res = (int)value1 % (int)value2;
+      break;
+    case '^':
+      res = pow(value1, value2);
+      break;
     }
     return res;
   }
 
-  double evalFunction(char operation, double value) {
-    double res{};
+  double evalFunction(char operation) {
+    double value{}, res{};
+    value = stack_double_.top();
+    stack_double_.pop();
     switch (operation) {
-      case 'a':
-        res = acos(value);
-        break;
-      case 'c':
-        res = cos(value);
-        break;
-      case 's':
-        res = sin(value);
-        break;
-      case 't':
-        res = tan(value);
-        break;
-      case 'i':
-        res = asin(value);
-        break;
-      case 'q':
-        res = sqrt(value);
-        break;
-      case 'o':
-        res = log10f(value);
-        break;
-      case 'l':
-        res = log(value);
-        break;
-      case 'v':
-        res = atan(value);
-        break;
-      case 'u':
-        res = value * (-1);
-        break;
+    case 'a':
+      res = acos(value);
+      break;
+    case 'c':
+      res = cos(value);
+      break;
+    case 's':
+      res = sin(value);
+      break;
+    case 't':
+      res = tan(value);
+      break;
+    case 'i':
+      res = asin(value);
+      break;
+    case 'q':
+      res = sqrt(value);
+      break;
+    case 'o':
+      res = log10f(value);
+      break;
+    case 'l':
+      res = log(value);
+      break;
+    case 'v':
+      res = atan(value);
+      break;
+    case 'u':
+      res = value * (-1);
+      break;
     }
     return res;
   }
 };
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // _CALCULATOR_H_
+#endif // CALCULATOR_H_

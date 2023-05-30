@@ -1,14 +1,25 @@
-#ifndef _BASE_PARSER_H_
-#define _BASE_PARSER_H_
+#ifndef BASE_PARSER_H_
+#define BASE_PARSER_H_
 
+#include <cstring>
 #include <list>
+#include <stack>
 #include <stdexcept>
 #include <string>
 
 namespace s21 {
 
 class BaseParser {
- protected:
+public:
+  virtual ~BaseParser(){};
+
+  virtual void set_input_string(const std::string &raw) = 0;
+
+  virtual void translate() = 0;
+
+  virtual std::string postfix_string() = 0;
+
+protected:
   std::string in_{};
   std::string acceptable_tokens_after_digit_ = "-+*/)m^";
   std::string acceptable_tokens_after_op_ = "x0123456789cstaivloq(";
@@ -39,7 +50,7 @@ class BaseParser {
     operators_.pop();
   }
 
-  void processNumber(std::size_t& idx, std::size_t& temp_idx, bool& no_num,
+  void processNumber(std::size_t &idx, std::size_t &temp_idx, bool &no_num,
                      std::size_t size) {
     double n = std::stod(in_.substr(idx), &temp_idx);
     output_tokens_.push_back(std::to_string(n));
@@ -53,7 +64,7 @@ class BaseParser {
     }
   }
 
-  void processFunction(char c, std::size_t idx, bool& no_num) {
+  void processFunction(char c, std::size_t idx, bool &no_num) {
     if (isdigit(in_[idx + 1]) || in_[idx + 1] == '(') {
       operators_.push(c);
       no_num = true;
@@ -62,7 +73,7 @@ class BaseParser {
     }
   }
 
-  void processOperator(char c, std::size_t idx, bool& no_num) {
+  void processOperator(char c, std::size_t idx, bool &no_num) {
     if (c == '-' && no_num) {
       operators_.push('u');
     } else {
@@ -96,17 +107,8 @@ class BaseParser {
   }
 
   void processVariable() { output_tokens_.push_back("x"); }
-
- public:
-  virtual ~BaseParser(){};
-
-  virtual void set_input_string(const std::string& raw) = 0;
-
-  virtual void translate() = 0;
-
-  virtual std::string postfix_string() = 0;
 };
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // _BASE_PARSER_H_
+#endif // BASE_PARSER_H_

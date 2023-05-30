@@ -15,7 +15,11 @@ public:
     model_->set_input_string(in);
     model_->translate();
     model_->postfix_string();
-    return 0;
+    return true;
+  }
+  void set_credit_data(double amount, double rate, double duration,
+                       bool diff_type) {
+    model_->set_credit_data(duration, amount, rate, diff_type);
   }
 };
 }; // namespace s21

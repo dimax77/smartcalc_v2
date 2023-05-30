@@ -17,7 +17,25 @@ void credit::enable_pushButton() {
                              ui->lineEdit_2->hasAcceptableInput() &&
                              ui->lineEdit->hasAcceptableInput());
 }
+
+void credit::keyPressEvent(QKeyEvent *event) {
+  if (event->key() == Qt::Key_Q && event->modifiers() == Qt::ControlModifier) {
+    qApp->quit(); // закрыть приложение в  Ubuntu по <Ctrl-Q>
+  }
+}
+
 void credit::on_pushButton_clicked() {
+  double int_rate = ui->lineEdit_3->text().toDouble();
+  double loan_amount = ui->lineEdit->text().toDouble();
+  double srok = 0.0;
+  if (ui->comboBox->currentIndex() == 1) {
+    srok = ui->lineEdit_2->text().toDouble();
+  } else if (ui->comboBox->currentIndex() == 0) {
+    srok = ui->lineEdit_2->text().toDouble() * 12;
+  }
+  bool diff_type = ui->radioButton_2->isChecked();
+  ctrl_->set_credit_data(loan_amount, int_rate, srok, diff_type);
+
   double ostatok = ui->lineEdit->text().toDouble();
   double summa = 0;
   if (ui->radioButton->isChecked()) {
@@ -25,12 +43,7 @@ void credit::on_pushButton_clicked() {
     qDebug() << int_rate;
     double loan_amount = ui->lineEdit->text().toDouble();
     qDebug() << loan_amount;
-    double srok = 0.0;
-    if (ui->comboBox->currentIndex() == 1) {
-      srok = ui->lineEdit_2->text().toDouble();
-    } else if (ui->comboBox->currentIndex() == 0) {
-      srok = ui->lineEdit_2->text().toDouble() * 12;
-    }
+
     qDebug() << QString::number(srok);
     double a_monthly_amount =
         loan_amount * (int_rate / (1 - qPow((int_rate + 1), (-1) * (srok))));

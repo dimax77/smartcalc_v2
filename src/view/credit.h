@@ -1,7 +1,9 @@
 #ifndef CREDIT_H
 #define CREDIT_H
 
+#include "../controller/controller.h"
 #include <QDialog>
+#include <QKeyEvent>
 
 namespace Ui {
 class credit;
@@ -15,6 +17,7 @@ public:
   ~credit();
 
 private slots:
+  void keyPressEvent(QKeyEvent *event);
   void on_pushButton_clicked();
   void enable_pushButton();
 
@@ -26,6 +29,7 @@ private slots:
 
 private:
   Ui::credit *ui;
+  s21::controller *ctrl_;
 };
 
 #endif // CREDIT_H
