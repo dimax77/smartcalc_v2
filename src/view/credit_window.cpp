@@ -1,4 +1,4 @@
-#include "credit.h"
+#include "credit_window.h"
 #include "QDebug"
 #include "QtMath"
 #include "ui_credit.h"

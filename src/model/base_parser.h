@@ -2,6 +2,7 @@
 #define BASE_PARSER_H_
 
 #include <cstring>
+#include <iostream>
 #include <list>
 #include <stack>
 #include <stdexcept>
@@ -53,6 +54,7 @@ protected:
   void processNumber(std::size_t &idx, std::size_t &temp_idx, bool &no_num,
                      std::size_t size) {
     double n = std::stod(in_.substr(idx), &temp_idx);
+    std::cout << n << std::endl;
     output_tokens_.push_back(std::to_string(n));
     no_num = false;
     idx += (temp_idx - 1);

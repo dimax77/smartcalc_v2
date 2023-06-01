@@ -1,5 +1,5 @@
-#ifndef CREDIT_H
-#define CREDIT_H
+#ifndef CREDIT_WINDOW_H
+#define CREDIT_WINDOW_H
 
 #include "../controller/controller.h"
 #include <QDialog>
@@ -32,4 +32,4 @@ private:
   s21::controller *ctrl_;
 };
 
-#endif // CREDIT_H
+#endif // CREDIT_WINDOW_H

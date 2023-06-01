@@ -3,9 +3,9 @@
 
 #include "../controller/controller.h"
 #include "QDebug"
-#include "credit.h"
+#include "credit_window.h"
 //#include "deposit.h"
-#include "graph.h"
+#include "graph_window.h"
 #include <QKeyEvent>
 #include <QMainWindow>
 

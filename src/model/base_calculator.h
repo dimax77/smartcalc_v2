@@ -3,12 +3,13 @@
 // s: sin   i: asin   o: log      q: sqrt
 // t: tan   v: atan   u: unar '-' ^: pow
 
-#ifndef CALCULATOR_H_
-#define CALCULATOR_H_
+#ifndef BASE_CALCULATOR_H_
+#define BASE_CALCULATOR_H_
 
 #include <cctype>
 #include <cmath>
 #include <cstring>
+#include <iostream>
 #include <list>
 #include <stack>
 #include <string>
@@ -63,6 +64,7 @@ public:
       postfix_string_ += " ";
       output_tokens_.pop_front();
     }
+    std::cout << postfix_string_ << std::endl;
     return postfix_string_;
   }
 
@@ -162,4 +164,4 @@ private:
 
 } // namespace s21
 
-#endif // CALCULATOR_H_
+#endif // BASE_CALCULATOR_H_

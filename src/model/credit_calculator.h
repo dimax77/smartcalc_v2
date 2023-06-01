@@ -1,5 +1,5 @@
-#ifndef CREDIT_H
-#define CREDIT_H
+#ifndef CREDIT_CALCULATOR_H
+#define CREDIT_CALCULATOR_H
 
 namespace s21 {
 class credit_calculator {
@@ -19,4 +19,4 @@ public:
 };
 }; // namespace s21
 
-#endif // CREDIT_H
+#endif // CREDIT_CALCULATOR_H

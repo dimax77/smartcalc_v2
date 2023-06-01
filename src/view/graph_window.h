@@ -1,5 +1,5 @@
-#ifndef GRAPH_H
-#define GRAPH_H
+#ifndef GRAPH_WINDOW_H
+#define GRAPH_WINDOW_H
 
 #include <QMainWindow>
 
@@ -18,4 +18,4 @@ private:
   void setup(const QString &func);
 };
 
-#endif // GRAPH_H
+#endif // GRAPH_WINDOW_H

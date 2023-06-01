@@ -1,4 +1,4 @@
-#include "graph.h"
+#include "graph_window.h"
 
 graph::graph(QWidget *parent) : QMainWindow{parent} {}
 
