@@ -4,7 +4,7 @@
 #include "../controller/controller.h"
 #include "QDebug"
 #include "credit_window.h"
-//#include "deposit.h"
+#include "deposit_window.h"
 #include "graph_window.h"
 #include <QKeyEvent>
 #include <QMainWindow>

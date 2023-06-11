@@ -4,6 +4,7 @@
 #include "../controller/controller.h"
 #include <QDialog>
 #include <QKeyEvent>
+#include <vector>
 
 namespace Ui {
 class credit;
@@ -21,11 +22,9 @@ private slots:
   void on_pushButton_clicked();
   void enable_pushButton();
 
-  void on_lineEdit_textEdited();
-
-  void on_lineEdit_2_textEdited();
-
-  void on_lineEdit_3_textEdited();
+  void on_lineEdit_amount_textEdited();
+  void on_lineEdit_interestRate_textEdited();
+  void on_lineEdit_term_textEdited();
 
 private:
   Ui::credit *ui;

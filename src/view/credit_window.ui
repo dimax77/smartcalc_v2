@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
+    <width>415</width>
     <height>310</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="lineEdit_term"/>
    </item>
    <item row="1" column="2">
     <widget class="QComboBox" name="comboBox">
@@ -56,7 +56,7 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEdit_3"/>
+    <widget class="QLineEdit" name="lineEdit_interestRate"/>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_5">
@@ -66,7 +66,7 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QRadioButton" name="radioButton">
+    <widget class="QRadioButton" name="radioButton_annuit">
      <property name="text">
       <string>Аннуитетные</string>
      </property>
@@ -89,7 +89,7 @@
     </spacer>
    </item>
    <item row="4" column="1" colspan="2">
-    <widget class="QRadioButton" name="radioButton_2">
+    <widget class="QRadioButton" name="radioButton_diff">
      <property name="text">
       <string>Дифференцированные</string>
      </property>
@@ -112,7 +112,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="label_monthlyPayment">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -126,7 +126,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="label_accruedInterest">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -140,7 +140,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="label_total">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -150,7 +150,7 @@
     </widget>
    </item>
    <item row="0" column="1" colspan="2">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="lineEdit_amount"/>
    </item>
    <item row="5" column="0" colspan="3">
     <widget class="QPushButton" name="pushButton">

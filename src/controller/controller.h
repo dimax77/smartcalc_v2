@@ -1,6 +1,7 @@
 #ifndef S21CALC_CONTROLLER_H
 #define S21CALC_CONTROLLER_H
 #include "../model/model.h"
+#include <vector>
 
 namespace s21 {
 class controller {
@@ -17,9 +18,14 @@ public:
     model_->postfix_string();
     return true;
   }
-  void set_credit_data(double amount, double rate, double duration,
-                       bool diff_type) {
-    model_->set_credit_data(duration, amount, rate, diff_type);
+  //  void set_credit_data(double amount, double rate, double duration,
+  //                       bool diff_type, std::vector<double> *result_data_) {
+  //    model_->set_credit_data(duration, amount, rate, diff_type,
+  //    result_data_);
+  //  }
+  std::vector<double> processCreditData(double amount, double interestRate,
+                                        int term, bool diff_type) {
+    return model_->processCredit(amount, interestRate, term, diff_type);
   }
 };
 }; // namespace s21

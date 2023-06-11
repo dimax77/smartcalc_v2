@@ -21,7 +21,7 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
   if (event->key() == Qt::Key_Q && event->modifiers() == Qt::ControlModifier) {
-    qApp->quit(); // закрыть приложение в  Ubuntu по <Ctrl-Q>
+    qApp->quit();
   }
 }
 
@@ -53,8 +53,6 @@ void MainWindow::on_button_clicked() {
 
 void MainWindow::eval(QString text) {
   try {
-    std::string tmp = text.toStdString();
-    std::cout << tmp << std::endl;
     ctrl_->translate(text.toStdString());
     double result = ctrl_->get_res(x_);
     std::cout << result << std::endl;
@@ -66,17 +64,12 @@ void MainWindow::eval(QString text) {
 
 void MainWindow::on_pushButton_31_clicked() {
   credit credit;
-  credit.setModal(1);
   credit.exec();
 }
 
 void MainWindow::on_pushButton_32_clicked() {
-  //   deposit deposit;
-  //   deposit.setModal(1);
-  //   deposit.exec();
-  //   //    qDebug() << "dep pressed";
-  //   //    dep *depo = new dep();
-  //   //    depo->show();
+  deposit deposit;
+  deposit.exec();
 }
 
 void MainWindow::on_pushButton_33_clicked() {

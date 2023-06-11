@@ -1,5 +1,5 @@
-#ifndef DEPOSIT_H
-#define DEPOSIT_H
+#ifndef DEPOSIT_WINDOW_H
+#define DEPOSIT_WINDOW_H
 
 #include "QDateEdit"
 #include "QHBoxLayout"
@@ -44,4 +44,4 @@ private:
   double profit(double amount, int days, double rate);
 };
 
-#endif // DEPOSIT_H
+#endif // DEPOSIT_WINDOW_H

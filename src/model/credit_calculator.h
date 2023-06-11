@@ -1,5 +1,7 @@
 #ifndef CREDIT_CALCULATOR_H
 #define CREDIT_CALCULATOR_H
+#include "QtMath"
+#include <vector>
 
 namespace s21 {
 class credit_calculator {
@@ -9,13 +11,39 @@ class credit_calculator {
   bool diff_type_{};
 
 public:
-  void set_credit_data(int srok, double summa, double stavka, bool diff_type) {
+  void set_credit(int srok, double summa, double stavka, bool diff_type) {
     srok_ = srok;
     summa_credita_ = summa;
     stavka_ = stavka;
     diff_type_ = diff_type;
   }
-  void proccess_data() {}
+  std::vector<double> processCredit() {
+    std::vector<double> result_data;
+    double int_rate = stavka_ / 12 / 100;
+    if (diff_type_) {
+      double main_part = summa_credita_ / srok_;
+      double current_payment{}, ostatok = summa_credita_, summa{};
+      for (int i = 0; i < srok_; i++) {
+        current_payment = (main_part + ostatok * int_rate);
+        ostatok -= main_part;
+        summa += current_payment;
+        if (i == 0)
+          result_data.push_back(current_payment);
+        if (i == srok_ - 1)
+          result_data.push_back(current_payment);
+      }
+      result_data.push_back(summa);
+      result_data.push_back(summa - summa_credita_);
+    } else {
+      double a_monthly_amount =
+          summa_credita_ *
+          (int_rate / (1 - qPow((int_rate + 1), (-1) * (srok_))));
+      result_data.push_back(a_monthly_amount);
+      result_data.push_back(a_monthly_amount * srok_);
+      result_data.push_back(a_monthly_amount * srok_ - summa_credita_);
+    }
+    return result_data;
+  }
 };
 }; // namespace s21
 

@@ -2,18 +2,20 @@
 #define MODEL_H
 #include "base_calculator.h"
 #include "credit_calculator.h"
+#include <vector>
 
 namespace s21 {
 class model : public Calculator {
-  s21::credit_calculator credit_;
 
 public:
-  void set_credit_data(int duration, double amount, double rate,
-                       double diff_type) {
-    credit_.set_credit_data(duration, amount, rate, diff_type);
-  };
+  std::vector<double> processCredit(double amount, double interestRate,
+                                    int term, bool diff_type) {
+    credit_.set_credit(term, amount, interestRate, diff_type);
+    return credit_.processCredit();
+  }
 
 private:
+  s21::credit_calculator credit_;
 };
 };     // namespace s21
 #endif // MODEL_H

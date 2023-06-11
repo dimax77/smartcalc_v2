@@ -1,6 +1,6 @@
-#include "deposit.h"
+#include "deposit_window.h"
 #include "QDebug"
-#include "ui_deposit.h"
+#include "ui_deposit_window.h"
 
 deposit::deposit(QWidget *parent) : QDialog(parent), ui(new Ui::deposit) {
   ui->setupUi(this);
