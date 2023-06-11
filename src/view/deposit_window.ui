@@ -30,7 +30,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="lineEdit_amount">
        <property name="text">
         <string>1000000</string>
        </property>
@@ -48,7 +48,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="lineEdit_term">
        <property name="text">
         <string>12</string>
        </property>
@@ -78,7 +78,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_3">
+      <widget class="QLineEdit" name="lineEdit_tax">
        <property name="text">
         <string>0</string>
        </property>
@@ -96,7 +96,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_4">
+      <widget class="QLineEdit" name="lineEdit_rate">
        <property name="text">
         <string>7</string>
        </property>
@@ -114,7 +114,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="dateEdit">
+      <widget class="QDateEdit" name="dateEdit_start">
        <property name="calendarPopup">
         <bool>true</bool>
        </property>
@@ -132,7 +132,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="comboBox_withdrawInterval">
        <property name="currentIndex">
         <number>0</number>
        </property>
@@ -161,7 +161,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="checkBox_capitalize">
        <property name="text">
         <string>Капитализация процентов</string>
        </property>
@@ -175,21 +175,21 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_13">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButton_addDeposit">
        <property name="text">
         <string>+ Пополнение</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pushButton_cashBack">
        <property name="text">
         <string>+ Снятие</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="pushButton_calculate">
        <property name="text">
         <string>Рассчитать</string>
        </property>
@@ -204,7 +204,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="2" column="0">
-       <widget class="QGroupBox" name="groupBox_5">
+       <widget class="QGroupBox" name="groupBox_additionalDeposit3">
         <property name="title">
          <string/>
         </property>
@@ -244,7 +244,7 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QGroupBox" name="groupBox_3">
+       <widget class="QGroupBox" name="groupBox_additionalDeposit1">
         <property name="title">
          <string/>
         </property>
@@ -284,7 +284,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QGroupBox" name="groupBox_4">
+       <widget class="QGroupBox" name="groupBox_additionalDeposit2">
         <property name="title">
          <string/>
         </property>
@@ -333,7 +333,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QGroupBox" name="groupBox_7">
+       <widget class="QGroupBox" name="groupBox_withdraw1">
         <property name="title">
          <string/>
         </property>
@@ -376,7 +376,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_8">
+       <widget class="QGroupBox" name="groupBox_withdraw2">
         <property name="title">
          <string/>
         </property>
@@ -419,7 +419,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_9">
+       <widget class="QGroupBox" name="groupBox_withdraw3">
         <property name="title">
          <string/>
         </property>
