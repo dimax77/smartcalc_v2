@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     view/credit_window.cpp \
+    view/deposit_window.cpp \
     view/graph_window.cpp \
     view/mainwindow.cpp
 
@@ -21,11 +22,13 @@ HEADERS += \
     model/credit_calculator.h \
     model/model.h \
     view/credit_window.h \
+    view/deposit_window.h \
     view/graph_window.h \
     view/mainwindow.h
 
 FORMS += \
     view/credit_window.ui \
+    view/deposit_window.ui \
     view/graph_window.ui \
     view/mainwindow.ui
 
