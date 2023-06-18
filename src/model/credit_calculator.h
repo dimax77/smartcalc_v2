@@ -12,6 +12,8 @@ class credit_calculator {
 
 public:
   void set_credit(int srok, double summa, double stavka, bool diff_type) {
+    if (srok < 1 || summa <= 0)
+      throw "Error";
     srok_ = srok;
     summa_credita_ = summa;
     stavka_ = stavka;

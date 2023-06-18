@@ -2,6 +2,7 @@
 #define MODEL_H
 #include "base_calculator.h"
 #include "credit_calculator.h"
+#include "deposit_calculator.h"
 #include <vector>
 
 namespace s21 {
@@ -14,8 +15,11 @@ public:
     return credit_.processCredit();
   }
 
+  std::vector<double> processDeposit() {}
+
 private:
   s21::credit_calculator credit_;
+  s21::deposit_calculator deposit_;
 };
 };     // namespace s21
 #endif // MODEL_H

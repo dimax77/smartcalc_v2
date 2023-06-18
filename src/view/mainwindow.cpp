@@ -55,7 +55,6 @@ void MainWindow::eval(QString text) {
   try {
     ctrl_->translate(text.toStdString());
     double result = ctrl_->get_res(x_);
-    std::cout << result << std::endl;
     ui->lineEdit_2->setText(QString::number(result));
   } catch (...) {
     ui->lineEdit_2->setText("Error");

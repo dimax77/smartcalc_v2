@@ -20,6 +20,7 @@ HEADERS += \
     model/base_calculator.h \
     model/base_parser.h \
     model/credit_calculator.h \
+    model/deposit_calculator.h \
     model/model.h \
     view/credit_window.h \
     view/deposit_window.h \

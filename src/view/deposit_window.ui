@@ -141,6 +141,11 @@
          <string>В конце срока</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Раз в месяц</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
@@ -219,21 +224,21 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QDateEdit" name="dateEdit_4">
+           <widget class="QDateEdit" name="dateEdit_deposit3">
             <property name="calendarPopup">
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_7">
+           <widget class="QLineEdit" name="lineEdit_deposit3">
             <property name="text">
              <string>50000</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_6">
+           <widget class="QPushButton" name="pushButton_deposit3">
             <property name="text">
              <string>X</string>
             </property>
@@ -259,21 +264,21 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QDateEdit" name="dateEdit_2">
+           <widget class="QDateEdit" name="dateEdit_deposit1">
             <property name="calendarPopup">
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_5">
+           <widget class="QLineEdit" name="lineEdit_deposit1">
             <property name="text">
              <string>50000</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_4">
+           <widget class="QPushButton" name="pushButton_deposit1">
             <property name="text">
              <string>X</string>
             </property>
@@ -299,21 +304,21 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QDateEdit" name="dateEdit_3">
+           <widget class="QDateEdit" name="dateEdit_deposit2">
             <property name="calendarPopup">
              <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_6">
+           <widget class="QLineEdit" name="lineEdit_deposit2">
             <property name="text">
              <string>50000</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_5">
+           <widget class="QPushButton" name="pushButton_deposit2">
             <property name="text">
              <string>X</string>
             </property>
@@ -348,7 +353,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="0">
-           <widget class="QDateEdit" name="dateEdit_5">
+           <widget class="QDateEdit" name="dateEdit_cashback1">
             <property name="acceptDrops">
              <bool>false</bool>
             </property>
@@ -358,14 +363,14 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_8">
+           <widget class="QLineEdit" name="lineEdit_cashback1">
             <property name="text">
              <string>50000</string>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QPushButton" name="pushButton_7">
+           <widget class="QPushButton" name="pushButton_cashback1">
             <property name="text">
              <string>X</string>
             </property>
@@ -391,7 +396,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="0">
-           <widget class="QDateEdit" name="dateEdit_6">
+           <widget class="QDateEdit" name="dateEdit_cashback2">
             <property name="acceptDrops">
              <bool>false</bool>
             </property>
@@ -401,14 +406,14 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_9">
+           <widget class="QLineEdit" name="lineEdit_cashback2">
             <property name="text">
              <string>50000</string>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QPushButton" name="pushButton_cashback2">
             <property name="text">
              <string>X</string>
             </property>
@@ -434,7 +439,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_16">
           <item>
-           <widget class="QDateEdit" name="dateEdit_7">
+           <widget class="QDateEdit" name="dateEdit_cashback3">
             <property name="acceptDrops">
              <bool>false</bool>
             </property>
@@ -444,14 +449,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_10">
+           <widget class="QLineEdit" name="lineEdit_cashback3">
             <property name="text">
              <string>50000</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_9">
+           <widget class="QPushButton" name="pushButton_cashback3">
             <property name="text">
              <string>X</string>
             </property>

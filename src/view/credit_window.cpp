@@ -53,6 +53,8 @@ void credit::on_pushButton_clicked() {
       ui->groupBox->setVisible(1);
     }
   } catch (...) {
+    ui->label_monthlyPayment->setText("");
+    ui->label_accruedInterest->setText("");
     ui->label_total->setText("Error");
     ui->groupBox->setVisible(1);
   }
