@@ -37,43 +37,41 @@ private slots:
 
   void on_pushButton_cashback3_clicked();
 
-  //  void on_pushButton_withdrawDelete2_clicked();
-
   void on_pushButton_cashback2_clicked();
 
-  void on_dateEdit_2_userDateChanged(const QDate &date);
+  void on_dateEdit_deposit1_userDateChanged(const QDate &date);
 
-  void on_dateEdit_3_userDateChanged(const QDate &date);
+  void on_dateEdit_deposit2_userDateChanged(const QDate &date);
 
-  void on_dateEdit_4_userDateChanged(const QDate &date);
+  void on_dateEdit_deposit3_userDateChanged(const QDate &date);
 
-  void on_dateEdit_5_userDateChanged(const QDate &date);
+  void on_dateEdit_cashback1_userDateChanged(const QDate &date);
 
-  void on_dateEdit_6_userDateChanged(const QDate &date);
+  void on_dateEdit_cashback2_userDateChanged(const QDate &date);
 
-  void on_dateEdit_7_userDateChanged(const QDate &date);
-
-  void on_pushButton_withdrawDelete2_clicked();
+  void on_dateEdit_cashback3_userDateChanged(const QDate &date);
 
   void on_lineEdit_amount_textChanged(const QString &arg1);
 
-  void on_lineEdit_5_textChanged(const QString &arg1);
+  void on_lineEdit_deposit1_textChanged(const QString &arg1);
 
-  void on_lineEdit_6_textChanged(const QString &arg1);
+  void on_lineEdit_deposit2_textChanged(const QString &arg1);
 
-  void on_lineEdit_7_textChanged(const QString &arg1);
+  void on_lineEdit_deposit3_textChanged(const QString &arg1);
 
-  void on_lineEdit_8_textChanged(const QString &arg1);
+  void on_lineEdit_cashback1_textChanged(const QString &arg1);
 
-  void on_lineEdit_9_textChanged(const QString &arg1);
+  void on_lineEdit_cashback2_textChanged(const QString &arg1);
 
-  void on_lineEdit_10_textChanged(const QString &arg1);
+  void on_lineEdit_cashback3_textChanged(const QString &arg1);
+
+  void on_pushButton_cashback1_clicked();
 
 private:
   Ui::deposit *ui;
   s21::controller *ctrl_;
-  std::vector<std::pair<QDate, double>> deposits_;
-  std::vector<std::pair<QDate, double>> withdraws_;
+  std::vector<std::pair<QDate, double>> deposits_{};
+  std::vector<std::pair<QDate, double>> withdraws_{};
 
   double profit(double amount, int days, double rate);
 };

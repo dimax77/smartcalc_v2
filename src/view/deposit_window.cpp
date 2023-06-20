@@ -67,7 +67,6 @@ void deposit::on_pushButton_deposit3_clicked() {
 }
 
 void deposit::on_pushButton_deposit2_clicked() {
-
   if (ui->groupBox_additionalDeposit3->isVisible()) {
     on_pushButton_deposit3_clicked();
   } else {
@@ -148,36 +147,34 @@ void deposit::on_pushButton_cashback3_clicked() {
 void deposit::on_pushButton_cashback2_clicked() {
   if (ui->groupBox_withdraw3->isVisible()) {
     on_pushButton_cashback3_clicked();
-  } else if (ui->groupBox_withdraw2->isVisible()) {
-    on_pushButton_withdrawDelete2_clicked();
   } else {
-    ui->groupBox_withdraws->setVisible(0);
+    ui->groupBox_withdraw2->setVisible(0);
     withdraws_.pop_back();
   }
 }
 
-void deposit::on_dateEdit_2_userDateChanged(const QDate &date) {
+void deposit::on_dateEdit_deposit1_userDateChanged(const QDate &date) {
   deposits_[1].first = date;
-  std::cout << "Date changed" << std::endl;
+  //  std::cout << "Date changed" << std::endl;
 }
 
-void deposit::on_dateEdit_3_userDateChanged(const QDate &date) {
+void deposit::on_dateEdit_deposit2_userDateChanged(const QDate &date) {
   deposits_[2].first = date;
 }
 
-void deposit::on_dateEdit_4_userDateChanged(const QDate &date) {
+void deposit::on_dateEdit_deposit3_userDateChanged(const QDate &date) {
   deposits_[3].first = date;
 }
 
-void deposit::on_dateEdit_5_userDateChanged(const QDate &date) {
+void deposit::on_dateEdit_cashback1_userDateChanged(const QDate &date) {
   withdraws_[1].first = date;
 }
 
-void deposit::on_dateEdit_6_userDateChanged(const QDate &date) {
+void deposit::on_dateEdit_cashback2_userDateChanged(const QDate &date) {
   withdraws_[2].first = date;
 }
 
-void deposit::on_dateEdit_7_userDateChanged(const QDate &date) {
+void deposit::on_dateEdit_cashback3_userDateChanged(const QDate &date) {
   withdraws_[3].first = date;
 }
 
@@ -186,40 +183,42 @@ double deposit::profit(double amount, int days, double rate) {
   return res;
 }
 
-void deposit::on_pushButton_withdrawDelete2_clicked() {
-  if (ui->groupBox_withdraw3->isVisible()) {
-    on_pushButton_cashback3_clicked();
-  } else {
-    ui->groupBox_withdraw2->setVisible(0);
-    withdraws_.pop_back();
-  }
-}
-
 void deposit::on_lineEdit_amount_textChanged(const QString &arg1) {
   deposits_[0].second = arg1.toDouble();
-  std::cout << "amount changed" << std::endl;
+  //  std::cout << "amount changed" << std::endl;
 }
 
-void deposit::on_lineEdit_5_textChanged(const QString &arg1) {
+void deposit::on_lineEdit_deposit1_textChanged(const QString &arg1) {
   deposits_[1].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_6_textChanged(const QString &arg1) {
+void deposit::on_lineEdit_deposit2_textChanged(const QString &arg1) {
   deposits_[2].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_7_textChanged(const QString &arg1) {
+void deposit::on_lineEdit_deposit3_textChanged(const QString &arg1) {
   deposits_[3].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_8_textChanged(const QString &arg1) {
+void deposit::on_lineEdit_cashback1_textChanged(const QString &arg1) {
   withdraws_[1].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_9_textChanged(const QString &arg1) {
+void deposit::on_lineEdit_cashback2_textChanged(const QString &arg1) {
   withdraws_[2].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_10_textChanged(const QString &arg1) {
+void deposit::on_lineEdit_cashback3_textChanged(const QString &arg1) {
   withdraws_[3].second = arg1.toDouble();
+}
+
+void deposit::on_pushButton_cashback1_clicked() {
+  if (ui->groupBox_withdraw3->isVisible()) {
+    on_pushButton_cashback3_clicked();
+  } else if (ui->groupBox_withdraw2->isVisible()) {
+    on_pushButton_cashback2_clicked();
+  } else {
+    ui->groupBox_withdraws->setVisible(0);
+    withdraws_.pop_back();
+  }
 }

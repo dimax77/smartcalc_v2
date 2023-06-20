@@ -15,7 +15,10 @@ public:
     return credit_.processCredit();
   }
 
-  std::vector<double> processDeposit() {}
+  std::vector<double> processDeposit() {
+    std::vector<double> result{};
+    return result;
+  }
 
 private:
   s21::credit_calculator credit_;
