@@ -16,7 +16,7 @@ class deposit : public QDialog {
   Q_OBJECT
 
 public:
-  explicit deposit(QWidget *parent = nullptr);
+  explicit deposit(s21::controller *ctrl, QWidget *parent = nullptr);
   ~deposit();
 
 private slots:

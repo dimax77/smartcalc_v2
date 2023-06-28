@@ -67,7 +67,7 @@ void MainWindow::on_pushButton_31_clicked() {
 }
 
 void MainWindow::on_pushButton_32_clicked() {
-  deposit deposit;
+  deposit deposit(ctrl_);
   deposit.exec();
 }
 

@@ -24,7 +24,14 @@ public:
     return model_->processCredit(amount, interestRate, term, diff_type);
   }
 
-  std::vector<double> processDepositData() { return model_->processDeposit(); }
+  std::vector<double>
+  processDepositData(std::vector<std::pair<QDate, double>> deposit,
+                     std::vector<std::pair<QDate, double>> cashback, double tax,
+                     double rate, int term, int payment_interval,
+                     bool capitalize) {
+    return model_->processDeposit(deposit, cashback, tax, rate, term,
+                                  payment_interval, capitalize);
+  }
 };
 }; // namespace s21
 

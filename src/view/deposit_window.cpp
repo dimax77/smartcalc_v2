@@ -3,7 +3,8 @@
 #include "ui_deposit_window.h"
 #include <iostream>
 
-deposit::deposit(QWidget *parent) : QDialog(parent), ui(new Ui::deposit) {
+deposit::deposit(s21::controller *ctrl, QWidget *parent)
+    : QDialog(parent), ui(new Ui::deposit), ctrl_(ctrl) {
   ui->setupUi(this);
   ui->groupBox_deposits->setVisible(0);
   ui->groupBox_withdraws->setVisible(0);
@@ -87,42 +88,20 @@ void deposit::on_pushButton_deposit1_clicked() {
 }
 
 void deposit::on_pushButton_calculate_clicked() {
-
-  if (ui->checkBox_capitalize->isChecked()) {
-    double party_per_day = ui->lineEdit_rate->text().toDouble() / 365 / 100;
-    QDate finish = (ui->dateEdit_start->date())
-                       .addMonths(ui->lineEdit_term->text().toInt());
-    int dlit = (ui->dateEdit_start->date()).daysTo(finish);
-
-    double sum_profit =
-        profit(ui->lineEdit_amount->text().toDouble(), dlit, party_per_day);
-
-    ui->label_7->setText(QString::number(sum_profit));
-
-    double nalog = ui->lineEdit_tax->text().toDouble() / 100 * sum_profit;
-    ui->label_11->setText(QString::number(nalog));
-
-    ui->label_9->setText(ui->lineEdit_amount->text());
-  } else {
-    double sum_profit = 0.0;
-    double party_per_day = ui->lineEdit_rate->text().toDouble() / 365 / 100;
-    if (ui->groupBox_additionalDeposit1->isVisible()) {
-      QDate end = ui->dateEdit_deposit1->date();
-      sum_profit =
-          profit(ui->lineEdit_amount->text().toDouble(),
-                 (ui->dateEdit_start->date()).daysTo(end), party_per_day);
-    }
-  }
   std::vector<double> result{};
-  //  try {
-  //    result = ctrl_->processDepositeData(
-  //        deposits_, withdraws_, ui->lineEdit_tax->text().toDouble(),
-  //        ui->lineEdit_rate->text().toDouble(),
-  //        ui->lineEdit_term->text().toUInt(),
-  //        ui->comboBox_withdrawInterval->currentIndex());
-  //  } catch (...) {
-  //    ui->label_9->setText("Error");
-  //  }
+  try {
+    result = ctrl_->processDepositData(
+        deposits_, withdraws_, ui->lineEdit_tax->text().toDouble(),
+        ui->lineEdit_rate->text().toDouble(),
+        ui->lineEdit_term->text().toUInt(),
+        ui->comboBox_withdrawInterval->currentIndex(),
+        ui->checkBox_capitalize->isChecked());
+    ui->label_9->setText(QString::number(result[0]));
+    ui->label_11->setText(QString::number(result[2]));
+    ui->label_7->setText(QString::number(result[1]));
+  } catch (...) {
+    ui->label_9->setText("Error");
+  }
 }
 
 void deposit::on_checkBox_capitalize_stateChanged() {
@@ -185,7 +164,6 @@ double deposit::profit(double amount, int days, double rate) {
 
 void deposit::on_lineEdit_amount_textChanged(const QString &arg1) {
   deposits_[0].second = arg1.toDouble();
-  //  std::cout << "amount changed" << std::endl;
 }
 
 void deposit::on_lineEdit_deposit1_textChanged(const QString &arg1) {

@@ -22,6 +22,7 @@ HEADERS += \
     model/credit_calculator.h \
     model/deposit_calculator.h \
     model/model.h \
+    model/transaction.h \
     view/credit_window.h \
     view/deposit_window.h \
     view/graph_window.h \
