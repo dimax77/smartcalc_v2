@@ -3,7 +3,6 @@
 #include "transaction.h"
 #include <QDate>
 #include <QtMath>
-#include <iostream>
 #include <vector>
 
 namespace s21 {
@@ -13,11 +12,11 @@ public:
                       std::vector<std::pair<QDate, double>> cash, double tax,
                       double rate, int term, int payment_int, bool capitalize) {
     transaction_.clear();
+    balance_ = 0.0;
     startDate_ = depo[0].first;
     endDate_ = startDate_.addMonths((term));
 
     deposit_ = depo[0].second;
-    balance_ = deposit_;
     while (!depo.empty()) {
       Transaction *deposit =
           new Deposit(depo.back().first, depo.back().second, false);
@@ -44,10 +43,6 @@ public:
                 return t1->getDate() < t2->getDate();
               });
     transaction_.erase(transaction_.begin() + 1);
-    for (auto tr = transaction_.begin(); tr != transaction_.end(); tr++) {
-      std::cout << ((*tr)->getDate()).toString().toStdString() << "   "
-                << (*tr)->getAmount() << std::endl;
-    }
     tax_ = tax;
     rate_ = rate;
     term_ = term;
@@ -55,29 +50,30 @@ public:
   }
 
   std::vector<double> processDeposit() {
-    std::vector<double> data;
+    std::vector<double> data{};
+    double totalWithdraw{}, totalDeposit{};
     auto currentDate = startDate_;
     int duration{};
     for (auto tr = transaction_.begin(); tr != transaction_.end(); ++tr) {
       auto nextTr = std::next(tr);
       if (nextTr != transaction_.end()) {
         duration = currentDate.daysTo((*nextTr)->getDate());
-        std::cout << "entered 'not end' transaction's proccessing" << std::endl;
         currentDate = (*nextTr)->getDate();
       } else {
         duration = currentDate.daysTo(endDate_);
-        std::cout << "Duration: " << duration << std::endl;
       };
+      if (auto withdrawTr = dynamic_cast<Withdraw *>(*tr)) {
+        totalWithdraw += withdrawTr->getAmount();
+      } else {
+        totalDeposit += (*tr)->getAmount();
+      }
+
       (*tr)->processTransaction(balance_, rate_, duration);
     }
     data.push_back(balance_);
-    data.push_back(balance_ - deposit_);
+    data.push_back(balance_ - deposit_ + totalWithdraw - totalDeposit);
     data.push_back((balance_ - deposit_) * tax_ / 100);
     return data;
-  }
-
-  double profit(double amount, int days) {
-    return amount * rate_ / 100 / 365 * days;
   }
 
 private:

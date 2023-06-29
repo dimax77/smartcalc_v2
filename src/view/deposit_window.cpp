@@ -96,9 +96,9 @@ void deposit::on_pushButton_calculate_clicked() {
         ui->lineEdit_term->text().toUInt(),
         ui->comboBox_withdrawInterval->currentIndex(),
         ui->checkBox_capitalize->isChecked());
-    ui->label_9->setText(QString::number(result[0]));
-    ui->label_11->setText(QString::number(result[2]));
-    ui->label_7->setText(QString::number(result[1]));
+    ui->label_9->setText(QString::number((result[0]), 'f', 0));
+    ui->label_11->setText(QString::number((result[2]), 'f', 0));
+    ui->label_7->setText(QString::number((result[1]), 'f', 0));
   } catch (...) {
     ui->label_9->setText("Error");
   }
