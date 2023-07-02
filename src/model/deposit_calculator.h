@@ -15,20 +15,22 @@ public:
     balance_ = 0.0;
     startDate_ = depo[0].first;
     endDate_ = startDate_.addMonths((term));
-
     deposit_ = depo[0].second;
+
     while (!depo.empty()) {
       Transaction *deposit =
           new Deposit(depo.back().first, depo.back().second, false);
       transaction_.push_back(deposit);
       depo.pop_back();
     };
+
     while (!cash.empty()) {
       Transaction *withdraw =
           new Withdraw(cash.back().first, cash.back().second);
       transaction_.push_back(withdraw);
       cash.pop_back();
     };
+
     if (capitalize) {
       if (payment_int) {
         auto tempDate = startDate_.addMonths(1);
@@ -38,15 +40,17 @@ public:
         }
       }
     }
+
     std::sort(transaction_.begin(), transaction_.end(),
               [](Transaction *t1, Transaction *t2) {
                 return t1->getDate() < t2->getDate();
               });
+
     transaction_.erase(transaction_.begin() + 1);
     tax_ = tax;
     rate_ = rate;
-    term_ = term;
-    payment_interval_ = payment_int;
+    //    term_ = term;
+    //    payment_interval_ = payment_int;
   }
 
   std::vector<double> processDeposit() {
@@ -71,15 +75,15 @@ public:
       (*tr)->processTransaction(balance_, rate_, duration);
     }
     data.push_back(balance_);
-    data.push_back(balance_ - deposit_ + totalWithdraw - totalDeposit);
-    data.push_back((balance_ - deposit_) * tax_ / 100);
+    data.push_back(balance_ + totalWithdraw - totalDeposit);
+    data.push_back((balance_ + totalWithdraw - totalDeposit) * tax_ / 100);
     return data;
   }
 
 private:
   double tax_{}, rate_{}, balance_{}, deposit_{};
-  int term_{};
-  int payment_interval_{};
+  //  int term_{};
+  //  int payment_interval_{};
   QDate startDate_{}, endDate_{};
   std::vector<Transaction *> transaction_{};
 };

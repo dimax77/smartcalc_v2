@@ -73,9 +73,8 @@ void MainWindow::on_pushButton_32_clicked() {
 
 void MainWindow::on_pushButton_33_clicked() {
   graph graph;
-  //       graph.setup(ui->lineEdit->text());
-  //       graph.setModal(1);
-  //       graph.exec();
+  graph.setup(ui->lineEdit->text());
+  graph.exec();
 }
 
 void MainWindow::on_pushButton_clicked() {

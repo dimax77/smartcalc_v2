@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,12 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
+    libs/qcustomplot/qcustomplot.cpp\
     view/credit_window.cpp \
     view/deposit_window.cpp \
     view/graph_window.cpp \
     view/mainwindow.cpp
 
 HEADERS += \
+    libs/qcustomplot/qcustomplot.h\
     controller/controller.h \
     model/base_calculator.h \
     model/base_parser.h \
@@ -35,6 +37,7 @@ FORMS += \
     view/mainwindow.ui
 
 INCLUDEPATH += /libs/
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
