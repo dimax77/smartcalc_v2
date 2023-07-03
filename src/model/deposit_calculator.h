@@ -11,6 +11,7 @@ public:
   void setDepositData(std::vector<std::pair<QDate, double>> depo,
                       std::vector<std::pair<QDate, double>> cash, double tax,
                       double rate, int term, int payment_int, bool capitalize) {
+
     transaction_.clear();
     balance_ = 0.0;
     startDate_ = depo[0].first;
@@ -49,8 +50,6 @@ public:
     transaction_.erase(transaction_.begin() + 1);
     tax_ = tax;
     rate_ = rate;
-    //    term_ = term;
-    //    payment_interval_ = payment_int;
   }
 
   std::vector<double> processDeposit() {
@@ -82,8 +81,6 @@ public:
 
 private:
   double tax_{}, rate_{}, balance_{}, deposit_{};
-  //  int term_{};
-  //  int payment_interval_{};
   QDate startDate_{}, endDate_{};
   std::vector<Transaction *> transaction_{};
 };

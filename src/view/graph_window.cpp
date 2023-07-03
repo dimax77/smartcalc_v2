@@ -1,7 +1,5 @@
 #include "graph_window.h"
-#include "QDebug"
 #include "ui_graph_window.h"
-#include <iostream>
 
 graph::graph(s21::controller *ctrl, QWidget *parent)
     : QDialog(parent), ui(new Ui::graph), ctrl_(ctrl) {

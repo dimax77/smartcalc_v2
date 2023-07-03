@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include "../controller/controller.h"
-#include "QDebug"
 #include "credit_window.h"
 #include "deposit_window.h"
 #include "graph_window.h"

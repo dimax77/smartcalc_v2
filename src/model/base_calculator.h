@@ -9,7 +9,6 @@
 #include <cctype>
 #include <cmath>
 #include <cstring>
-#include <iostream>
 #include <list>
 #include <stack>
 #include <string>
@@ -58,14 +57,12 @@ public:
     in_ = "";
   }
 
-  std::string postfix_string() override {
+  void postfix_string() override {
     while (!output_tokens_.empty()) {
       postfix_string_ += output_tokens_.front();
       postfix_string_ += " ";
       output_tokens_.pop_front();
     }
-    std::cout << postfix_string_ << std::endl;
-    return postfix_string_;
   }
 
   double eval(double x) {

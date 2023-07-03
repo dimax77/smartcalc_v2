@@ -1,9 +1,9 @@
 #include "credit_window.h"
-#include "QDebug"
 #include "QtMath"
 #include "ui_credit_window.h"
 
-credit::credit(QWidget *parent) : QDialog(parent), ui(new Ui::credit) {
+credit::credit(s21::controller *ctrl, QWidget *parent)
+    : QDialog(parent), ui(new Ui::credit), ctrl_(ctrl) {
   ui->setupUi(this);
   ui->groupBox->setVisible(0);
   ui->lineEdit_amount->setValidator(new QDoubleValidator);
@@ -17,12 +17,6 @@ void credit::enable_pushButton() {
   ui->pushButton->setEnabled(ui->lineEdit_term->hasAcceptableInput() &&
                              ui->lineEdit_interestRate->hasAcceptableInput() &&
                              ui->lineEdit_amount->hasAcceptableInput());
-}
-
-void credit::keyPressEvent(QKeyEvent *event) {
-  if (event->key() == Qt::Key_Q && event->modifiers() == Qt::ControlModifier) {
-    close();
-  }
 }
 
 void credit::on_pushButton_clicked() {

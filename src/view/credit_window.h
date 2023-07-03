@@ -14,11 +14,10 @@ class credit : public QDialog {
   Q_OBJECT
 
 public:
-  explicit credit(QWidget *parent = nullptr);
+  explicit credit(s21::controller *ctrl, QWidget *parent = nullptr);
   ~credit();
 
 private slots:
-  void keyPressEvent(QKeyEvent *event);
   void on_pushButton_clicked();
   void enable_pushButton();
 

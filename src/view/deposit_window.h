@@ -33,8 +33,6 @@ private slots:
 
   void on_pushButton_calculate_clicked();
 
-  void on_checkBox_capitalize_stateChanged();
-
   void on_pushButton_cashback3_clicked();
 
   void on_pushButton_cashback2_clicked();

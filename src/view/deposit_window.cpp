@@ -1,7 +1,5 @@
 #include "deposit_window.h"
-#include "QDebug"
 #include "ui_deposit_window.h"
-#include <iostream>
 
 deposit::deposit(s21::controller *ctrl, QWidget *parent)
     : QDialog(parent), ui(new Ui::deposit), ctrl_(ctrl) {
@@ -104,19 +102,6 @@ void deposit::on_pushButton_calculate_clicked() {
   }
 }
 
-void deposit::on_checkBox_capitalize_stateChanged() {
-  if (ui->checkBox_capitalize->isChecked()) {
-    ui->pushButton_addDeposit->setEnabled(0);
-    ui->pushButton_cashBack->setEnabled(0);
-    ui->groupBox_deposits->setVisible(0);
-    ui->groupBox_withdraws->setVisible(0);
-  }
-  if (!ui->checkBox_capitalize->isChecked()) {
-    ui->pushButton_addDeposit->setEnabled(1);
-    ui->pushButton_cashBack->setEnabled(1);
-  }
-}
-
 void deposit::on_pushButton_cashback3_clicked() {
   ui->groupBox_withdraw3->setVisible(0);
   ui->pushButton_cashBack->setEnabled(1);
@@ -134,7 +119,6 @@ void deposit::on_pushButton_cashback2_clicked() {
 
 void deposit::on_dateEdit_deposit1_userDateChanged(const QDate &date) {
   deposits_[1].first = date;
-  //  std::cout << "Date changed" << std::endl;
 }
 
 void deposit::on_dateEdit_deposit2_userDateChanged(const QDate &date) {

@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "QValidator"
-#include "iostream"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(s21::controller *ctrl, QWidget *parent)
@@ -46,7 +45,6 @@ void MainWindow::on_button_clicked() {
         ui->lineEdit_2->setText(ui->lineEdit_2->text() += text);
       }
       raw_input_expression_ += mybutton->accessibleName();
-      std::cout << raw_input_expression_.toStdString() << std::endl;
     }
   }
 }
@@ -62,7 +60,7 @@ void MainWindow::eval(QString text) {
 }
 
 void MainWindow::on_pushButton_31_clicked() {
-  credit credit;
+  credit credit(ctrl_);
   credit.exec();
 }
 

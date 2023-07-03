@@ -15,7 +15,6 @@ public:
       : date_(date), amount_(amount), capital_(capital) {}
   QDate getDate() { return date_; }
   double getAmount() { return amount_; }
-  //  bool getCapital() { return capital_; }
   virtual void processTransaction(double &balance, double rate, int days) = 0;
 };
 
