@@ -36,7 +36,11 @@
       <widget class="QLineEdit" name="lineEdit_xmin"/>
      </item>
      <item row="1" column="4">
-      <widget class="QLineEdit" name="lineEdit_func"/>
+      <widget class="QLineEdit" name="lineEdit_func">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="3">
       <widget class="QLabel" name="label_6">

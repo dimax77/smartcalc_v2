@@ -72,8 +72,8 @@ void MainWindow::on_pushButton_32_clicked() {
 }
 
 void MainWindow::on_pushButton_33_clicked() {
-  graph graph;
-  graph.setup(ui->lineEdit->text());
+  graph graph(ctrl_);
+  graph.setup(ui->lineEdit_2->text(), raw_input_expression_);
   graph.exec();
 }
 
