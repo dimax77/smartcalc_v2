@@ -17,9 +17,9 @@ install: $(UNAME_S)
 
 clean: $(UNAME_S)_clean
 
-Darwin: mac_install
+Darwin: Mac_install
 
-mac_install:
+Mac_install:
 	@echo "Building and installing for macOS..."
 	@mkdir -p $(INSTALL_DIR)
 	@cd $(INSTALL_DIR) && $(QMAKE) ../scalc.pro -spec macx-clang CONFIG+=x86_64
@@ -29,20 +29,20 @@ Mac_clean:
 	@echo "Cleaning macOS..."
 	@$(MAKE) -C $(INSTALL_DIR) clean
 
-Linux: linux_install
+Linux: Linux_install
 
-linux_install:
+Linux_install:
 	@echo "Building and installing for Linux..."
 	@mkdir -p $(INSTALL_DIR)
 	@cd $(INSTALL_DIR) && $(QMAKE) ../scalc.pro -spec linux-g++ CONFIG+=x86_64
 	@$(MAKE) -C $(INSTALL_DIR)
 
-open:
-	$(OPEN)
-
 Linux_clean:
 	@echo "Cleaning Linux..."
 	@$(MAKE) -C $(INSTALL_DIR) clean
+
+open:
+	$(OPEN)
 
 uninstall:
 	@echo "Uninstalling..."

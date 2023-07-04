@@ -16,10 +16,12 @@
 namespace s21 {
 
 class Calculator : public BaseParser {
-public:
+ public:
   ~Calculator() override{};
 
   void set_input_string(const std::string &raw) override { in_ = raw; }
+
+  std::string get_postfix_string() { return postfix_string_; }
 
   void translate() override {
     postfix_string_ = "";
@@ -85,7 +87,7 @@ public:
     return res;
   }
 
-private:
+ private:
   std::stack<double> stack_double_;
 
   double evalOperation(char operation) {
@@ -95,24 +97,24 @@ private:
     value1 = stack_double_.top();
     stack_double_.pop();
     switch (operation) {
-    case '+':
-      res = value1 + value2;
-      break;
-    case '-':
-      res = value1 - value2;
-      break;
-    case '*':
-      res = value1 * value2;
-      break;
-    case '/':
-      res = value1 / value2;
-      break;
-    case 'm':
-      res = (int)value1 % (int)value2;
-      break;
-    case '^':
-      res = pow(value1, value2);
-      break;
+      case '+':
+        res = value1 + value2;
+        break;
+      case '-':
+        res = value1 - value2;
+        break;
+      case '*':
+        res = value1 * value2;
+        break;
+      case '/':
+        res = value1 / value2;
+        break;
+      case 'm':
+        res = (int)value1 % (int)value2;
+        break;
+      case '^':
+        res = pow(value1, value2);
+        break;
     }
     return res;
   }
@@ -122,41 +124,41 @@ private:
     value = stack_double_.top();
     stack_double_.pop();
     switch (operation) {
-    case 'a':
-      res = acos(value);
-      break;
-    case 'c':
-      res = cos(value);
-      break;
-    case 's':
-      res = sin(value);
-      break;
-    case 't':
-      res = tan(value);
-      break;
-    case 'i':
-      res = asin(value);
-      break;
-    case 'q':
-      res = sqrt(value);
-      break;
-    case 'o':
-      res = log10f(value);
-      break;
-    case 'l':
-      res = log(value);
-      break;
-    case 'v':
-      res = atan(value);
-      break;
-    case 'u':
-      res = value * (-1);
-      break;
+      case 'a':
+        res = acos(value);
+        break;
+      case 'c':
+        res = cos(value);
+        break;
+      case 's':
+        res = sin(value);
+        break;
+      case 't':
+        res = tan(value);
+        break;
+      case 'i':
+        res = asin(value);
+        break;
+      case 'q':
+        res = sqrt(value);
+        break;
+      case 'o':
+        res = log10f(value);
+        break;
+      case 'l':
+        res = log(value);
+        break;
+      case 'v':
+        res = atan(value);
+        break;
+      case 'u':
+        res = value * (-1);
+        break;
     }
     return res;
   }
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // BASE_CALCULATOR_H_
+#endif  // BASE_CALCULATOR_H_
