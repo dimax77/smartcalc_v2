@@ -80,14 +80,25 @@ void MainWindow::on_pushButton_clicked() {
   raw_input_expression_ += 'x';
 }
 
+//void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
+//  QRegExp x("^.*x.*$");
+//  if (x.indexIn(text) != -1) {
+//    ui->lineEdit->setEnabled(true);
+//  } else {
+//    ui->lineEdit->setEnabled(false);
+//  }
+//}
+
 void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
-  QRegExp x("^.*x.*$");
-  if (x.indexIn(text) != -1) {
-    ui->lineEdit->setEnabled(true);
-  } else {
-    ui->lineEdit->setEnabled(false);
-  }
+    QRegularExpression x("^.*x.*$");
+    QRegularExpressionMatch match = x.match(text);
+    if (match.hasMatch()) {
+        ui->lineEdit->setEnabled(true);
+    } else {
+        ui->lineEdit->setEnabled(false);
+    }
 }
+
 
 void MainWindow::on_lineEdit_textChanged(const QString &text) {
   x_ = text.toDouble();
