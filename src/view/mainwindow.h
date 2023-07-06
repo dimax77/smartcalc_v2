@@ -7,6 +7,9 @@
 #include "graph_window.h"
 #include <QKeyEvent>
 #include <QMainWindow>
+#if QT_VERSION>= QT_VERSION_CHECK(6, 2, 3)
+#include <QRegularExpression>
+#endif
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,7 +25,7 @@ public:
   ~MainWindow();
 
 private slots:
-  void on_button_clicked();
+  void handleButtonClicked();
   void eval(QString raw_expression);
   void on_pushButton_31_clicked();
   void on_pushButton_32_clicked();
@@ -34,7 +37,7 @@ private slots:
 
 private:
   void keyPressEvent(QKeyEvent *event);
-
+  static const QRegularExpression x_variable_;
   Ui::MainWindow *ui;
   s21::controller *ctrl_;
   QString raw_input_expression_{};

@@ -10,7 +10,7 @@ MainWindow::MainWindow(s21::controller *ctrl, QWidget *parent)
     QString button_name = QString("pushButton_") + QString::number(i);
     QPushButton *button = findChild<QPushButton *>(button_name);
     if (button) {
-      connect(button, SIGNAL(clicked()), this, SLOT(on_button_clicked()),
+      connect(button, SIGNAL(clicked()), this, SLOT(handleButtonClicked()),
               Qt::UniqueConnection);
     }
   }
@@ -24,7 +24,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
   }
 }
 
-void MainWindow::on_button_clicked() {
+void MainWindow::handleButtonClicked() {
   QPushButton *mybutton = (QPushButton *)sender();
   QString text = mybutton->text();
   if (!text.isEmpty()) {
@@ -80,24 +80,30 @@ void MainWindow::on_pushButton_clicked() {
   raw_input_expression_ += 'x';
 }
 
-//void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
-//  QRegExp x("^.*x.*$");
-//  if (x.indexIn(text) != -1) {
-//    ui->lineEdit->setEnabled(true);
-//  } else {
-//    ui->lineEdit->setEnabled(false);
-//  }
-//}
 
+
+const QRegularExpression MainWindow::x_variable_("^.*x.*$");
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 3)
 void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
-    QRegularExpression x("^.*x.*$");
-    QRegularExpressionMatch match = x.match(text);
+    QRegularExpressionMatch match = x_variable_.match(text);
     if (match.hasMatch()) {
         ui->lineEdit->setEnabled(true);
     } else {
         ui->lineEdit->setEnabled(false);
     }
 }
+#else
+void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
+  QRegExp x("^.*x.*$");
+  if (x.indexIn(text) != -1) {
+    ui->lineEdit->setEnabled(true);
+  } else {
+    ui->lineEdit->setEnabled(false);
+  }
+}
+#endif
+
 
 
 void MainWindow::on_lineEdit_textChanged(const QString &text) {
