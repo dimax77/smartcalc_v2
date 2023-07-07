@@ -3,6 +3,8 @@ INSTALL_DIR = install
 QMAKE = qmake
 UNAME_S := $(shell uname -s)
 FILE_PATH := $(INSTALL_DIR)/scalc
+UNIT = unit_test
+TESTS_FLAGS = -lgtest
 
 ifeq ($(shell uname), Linux)
 	OPEN = ./$(FILE_PATH)
@@ -49,6 +51,10 @@ uninstall:
 	@rm -rf $(INSTALL_DIR)
 	@echo "Uninstallation complete."
 
+test:
+	g++ unit_tests/model/s21test.cc $(TESTS_FLAGS) -o $(UNIT)
+	./$(UNIT)
+
 dist:
 	@echo "Creating distribution archive..."
 	@mkdir -p dist
@@ -63,4 +69,5 @@ dvi:
 	@echo "DVI file created."
 
 
-.PHONY: install clean mac_install mac_clean linux_install linux_clean open
+.PHONY: install clean mac_install mac_clean linux_install linux_clean open test dvi
+
