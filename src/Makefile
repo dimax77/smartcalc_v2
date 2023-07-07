@@ -8,7 +8,7 @@ ifeq ($(shell uname), Linux)
 	OPEN = ./$(FILE_PATH)
 endif
 ifeq ($(shell uname), Darwin)
-	OPEN = open "$(FILE_PATH).app"
+	OPEN = open $(FILE_PATH).app
 endif
 
 all: install open
@@ -52,12 +52,15 @@ uninstall:
 dist:
 	@echo "Creating distribution archive..."
 	@mkdir -p dist
-	@cp -r sources dist/
-	@cp -r docs dist/
-	@cp README.md dist/
-	@tar -czvf project_dist.tar.gz dist
+	@cp -r view controller model main.cpp scalc.pro Makefile dist
+	@cd dist && tar -czf ../scalc.tar.gz .
 	@rm -rf dist
 	@echo "Distribution archive created successfully."
+
+dvi:
+	@echo "Creating DVI file..."
+	@$(MAKE) -C $(INSTALL_DIR) dvi
+	@echo "DVI file created."
 
 
 .PHONY: install clean mac_install mac_clean linux_install linux_clean open
