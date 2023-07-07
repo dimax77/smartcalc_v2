@@ -5,6 +5,7 @@ UNAME_S := $(shell uname -s)
 FILE_PATH := $(INSTALL_DIR)/scalc
 UNIT = unit_test
 TESTS_FLAGS = -lgtest
+GCOV = --coverage
 
 ifeq ($(shell uname), Linux)
 	OPEN = ./$(FILE_PATH)
@@ -54,11 +55,19 @@ uninstall:
 test:
 	g++ unit_tests/model/s21test.cc $(TESTS_FLAGS) -o $(UNIT)
 	./$(UNIT)
+	rm -rf $(UNIT)
 
 clang:
 	cp ../materials/linters/.clang-format ./model
 	clang-format -n model/*.h
 	rm model/.clang-format
+
+gcov_report:
+	g++ unit_tests/model/s21test.cc $(TESTS_FLAGS) $(GCOV) -o $(UNIT)
+	./$(UNIT)
+	lcov -t "test" -o test.info -c -d .
+	genhtml -o report test.info
+	open report/index.html
 
 dist:
 	@echo "Creating distribution archive..."
