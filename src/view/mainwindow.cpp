@@ -80,18 +80,15 @@ void MainWindow::on_pushButton_clicked() {
   raw_input_expression_ += 'x';
 }
 
-
-
-const QRegularExpression MainWindow::x_variable_("^.*x.*$");
-
 #if QT_VERSION >= QT_VERSION_CHECK(6, 2, 3)
+const QRegularExpression MainWindow::x_variable_("^.*x.*$");
 void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
-    QRegularExpressionMatch match = x_variable_.match(text);
-    if (match.hasMatch()) {
-        ui->lineEdit->setEnabled(true);
-    } else {
-        ui->lineEdit->setEnabled(false);
-    }
+  QRegularExpressionMatch match = x_variable_.match(text);
+  if (match.hasMatch()) {
+    ui->lineEdit->setEnabled(true);
+  } else {
+    ui->lineEdit->setEnabled(false);
+  }
 }
 #else
 void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
@@ -103,8 +100,6 @@ void MainWindow::on_lineEdit_2_textChanged(const QString &text) {
   }
 }
 #endif
-
-
 
 void MainWindow::on_lineEdit_textChanged(const QString &text) {
   x_ = text.toDouble();

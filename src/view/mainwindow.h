@@ -7,7 +7,7 @@
 #include "graph_window.h"
 #include <QKeyEvent>
 #include <QMainWindow>
-#if QT_VERSION>= QT_VERSION_CHECK(6, 2, 3)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 3)
 #include <QRegularExpression>
 #endif
 
@@ -37,7 +37,10 @@ private slots:
 
 private:
   void keyPressEvent(QKeyEvent *event);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 3)
   static const QRegularExpression x_variable_;
+#endif
+
   Ui::MainWindow *ui;
   s21::controller *ctrl_;
   QString raw_input_expression_{};
