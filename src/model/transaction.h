@@ -5,12 +5,12 @@
 
 namespace s21 {
 class Transaction {
-protected:
+ protected:
   QDate date_;
   double amount_;
   bool capital_;
 
-public:
+ public:
   Transaction(QDate date, double amount, bool capital = false)
       : date_(date), amount_(amount), capital_(capital) {}
   QDate getDate() { return date_; }
@@ -19,7 +19,7 @@ public:
 };
 
 class Deposit : public Transaction {
-public:
+ public:
   Deposit(QDate date, double amount, bool capital)
       : Transaction(date, amount, capital) {}
   void processTransaction(double &balance, double rate, int days) override {
@@ -33,12 +33,12 @@ public:
 };
 
 class Withdraw : public Transaction {
-public:
+ public:
   Withdraw(QDate date, double amount) : Transaction(date, amount) {}
   void processTransaction(double &balance, double rate, int days) override {
     balance -= this->amount_;
     balance += balance * rate * days / 100 / 365;
   }
 };
-};     // namespace s21
-#endif // TRANSACTION_H
+};      // namespace s21
+#endif  // TRANSACTION_H

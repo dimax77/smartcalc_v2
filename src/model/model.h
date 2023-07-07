@@ -1,15 +1,15 @@
 #ifndef MODEL_H
 #define MODEL_H
+#include <vector>
+
 #include "base_calculator.h"
 #include "credit_calculator.h"
 #include "deposit_calculator.h"
 #include "transaction.h"
-#include <vector>
 
 namespace s21 {
 class model : public Calculator {
-
-public:
+ public:
   std::vector<double> processCredit(double amount, double interestRate,
                                     int term, bool diff_type) {
     credit_.set_credit(term, amount, interestRate, diff_type);
@@ -25,9 +25,9 @@ public:
     return deposit_.processDeposit();
   }
 
-private:
+ private:
   s21::credit_calculator credit_{};
   s21::deposit_calculator deposit_{};
 };
-};     // namespace s21
-#endif // MODEL_H
+};      // namespace s21
+#endif  // MODEL_H

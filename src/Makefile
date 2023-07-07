@@ -10,7 +10,7 @@ ifeq ($(shell uname), Linux)
 	OPEN = ./$(FILE_PATH)
 endif
 ifeq ($(shell uname), Darwin)
-	OPEN = open $(FILE_PATH).app
+	OPEN = ./install/scalc.app/Contents/MacOS/scalc
 endif
 
 all: install open
@@ -27,7 +27,7 @@ Mac_install:
 	@cd $(INSTALL_DIR) && $(QMAKE) ../scalc.pro -spec macx-clang CONFIG+=x86_64
 	@$(MAKE) -C $(INSTALL_DIR)
 
-Mac_clean:
+Darwin_clean:
 	@echo "Cleaning macOS..."
 	@$(MAKE) -C $(INSTALL_DIR) clean
 
@@ -48,12 +48,17 @@ open:
 
 uninstall:
 	@echo "Uninstalling..."
-	@rm -rf $(INSTALL_DIR)
+	@rm -rf $(INSTALL_DIR) unit_test
 	@echo "Uninstallation complete."
 
 test:
 	g++ unit_tests/model/s21test.cc $(TESTS_FLAGS) -o $(UNIT)
 	./$(UNIT)
+
+clang:
+	cp ../materials/linters/.clang-format ./model
+	clang-format -n model/*.h
+	rm model/.clang-format
 
 dist:
 	@echo "Creating distribution archive..."
@@ -64,9 +69,7 @@ dist:
 	@echo "Distribution archive created successfully."
 
 dvi:
-	@echo "Creating DVI file..."
-	@$(MAKE) -C $(INSTALL_DIR) dvi
-	@echo "DVI file created."
+	open dvi.html
 
 
 .PHONY: install clean mac_install mac_clean linux_install linux_clean open test dvi

@@ -10,7 +10,7 @@
 namespace s21 {
 
 class BaseParser {
-public:
+ public:
   virtual ~BaseParser(){};
 
   virtual void set_input_string(const std::string &raw) = 0;
@@ -19,7 +19,7 @@ public:
 
   virtual void postfix_string() = 0;
 
-protected:
+ protected:
   std::string in_{};
   std::string acceptable_tokens_after_digit_ = "-+*/)m^";
   std::string acceptable_tokens_after_op_ = "x0123456789cstaivloq(";
@@ -109,6 +109,6 @@ protected:
   void processVariable() { output_tokens_.push_back("x"); }
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // BASE_PARSER_H_
+#endif  // BASE_PARSER_H_

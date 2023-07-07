@@ -1,17 +1,17 @@
 #ifndef DEPOSIT_CALCULATOR_H
 #define DEPOSIT_CALCULATOR_H
-#include "transaction.h"
 #include <QDate>
 #include <QtMath>
 #include <vector>
 
+#include "transaction.h"
+
 namespace s21 {
 class deposit_calculator {
-public:
+ public:
   void setDepositData(std::vector<std::pair<QDate, double>> depo,
                       std::vector<std::pair<QDate, double>> cash, double tax,
                       double rate, int term, int payment_int, bool capitalize) {
-
     transaction_.clear();
     balance_ = 0.0;
     startDate_ = depo[0].first;
@@ -79,11 +79,11 @@ public:
     return data;
   }
 
-private:
+ private:
   double tax_{}, rate_{}, balance_{}, deposit_{};
   QDate startDate_{}, endDate_{};
   std::vector<Transaction *> transaction_{};
 };
-}; // namespace s21
+};  // namespace s21
 
-#endif // DEPOSIT_CALCULATOR_H
+#endif  // DEPOSIT_CALCULATOR_H
