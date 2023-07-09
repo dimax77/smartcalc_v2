@@ -2,6 +2,7 @@
 #define DEPOSIT_CALCULATOR_H
 #include <QDate>
 #include <QtMath>
+#include <iostream>
 #include <vector>
 
 #include "transaction.h"
@@ -16,7 +17,11 @@ public:
     balance_ = 0.0;
     startDate_ = depo[0].first;
     endDate_ = startDate_.addMonths((term));
+    std::cout << startDate_.toString().toStdString() << std::endl;
+    std::cout << endDate_.toString().toStdString() << std::endl;
     deposit_ = depo[0].second;
+
+    std::cout << deposit_ << std::endl;
 
     while (!depo.empty()) {
       Transaction *deposit =
@@ -53,30 +58,37 @@ public:
   }
 
   std::vector<double> processDeposit() {
-    std::vector<double> data{};
-    double totalWithdraw{}, totalDeposit{};
-    auto currentDate = startDate_;
-    int duration{};
-    for (auto tr = transaction_.begin(); tr != transaction_.end(); ++tr) {
-      auto nextTr = std::next(tr);
-      if (nextTr != transaction_.end()) {
-        duration = currentDate.daysTo((*nextTr)->getDate());
-        currentDate = (*nextTr)->getDate();
-      } else {
-        duration = currentDate.daysTo(endDate_);
-      };
-      if (auto withdrawTr = dynamic_cast<Withdraw *>(*tr)) {
-        totalWithdraw += withdrawTr->getAmount();
-      } else {
-        totalDeposit += (*tr)->getAmount();
+    try {
+      std::vector<double> data{};
+      double totalWithdraw{}, totalDeposit{};
+      auto currentDate = startDate_;
+      int duration{};
+      for (auto tr = transaction_.begin(); tr != transaction_.end(); ++tr) {
+        auto nextTr = std::next(tr);
+        if (nextTr != transaction_.end()) {
+          duration = currentDate.daysTo((*nextTr)->getDate());
+          currentDate = (*nextTr)->getDate();
+          std::cout << duration << std::endl;
+        } else {
+          duration = currentDate.daysTo(endDate_);
+          std::cout << duration << std::endl;
+        };
+        if (auto withdrawTr = dynamic_cast<Withdraw *>(*tr)) {
+          totalWithdraw += withdrawTr->getAmount();
+        } else {
+          totalDeposit += (*tr)->getAmount();
+        }
+        std::cout << balance_ << std::endl;
+        (*tr)->processTransaction(balance_, rate_, duration);
       }
 
-      (*tr)->processTransaction(balance_, rate_, duration);
+      data.push_back(balance_);
+      data.push_back(balance_ + totalWithdraw - totalDeposit);
+      data.push_back((balance_ + totalWithdraw - totalDeposit) * tax_ / 100);
+      return data;
+    } catch (...) {
+      throw std::runtime_error("Wrong input data.");
     }
-    data.push_back(balance_);
-    data.push_back(balance_ + totalWithdraw - totalDeposit);
-    data.push_back((balance_ + totalWithdraw - totalDeposit) * tax_ / 100);
-    return data;
   }
 
 private:

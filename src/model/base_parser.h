@@ -30,7 +30,7 @@ protected:
 
   bool is_operator(char c) { return strchr("-+*/^m", c) != nullptr; }
 
-  bool is_func(char c) { return strchr("cstaivloq", c) != nullptr; }
+  bool is_func(char c) { return strchr("cstaivloqu", c) != nullptr; }
 
   int precedence(char op) {
     if (op == '+' || op == '-') {
@@ -79,6 +79,7 @@ protected:
   void processOperator(char c, std::size_t idx, bool &no_num) {
     if (c == '-' && no_num) {
       operators_.push('u');
+    } else if (c == '+' && no_num) {
     } else {
       if (acceptable_tokens_after_op_.find(in_[idx + 1]) == std::string::npos) {
         throw std::runtime_error("Malformed expression.");

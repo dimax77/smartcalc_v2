@@ -1,5 +1,6 @@
 #include "deposit_window.h"
 #include "ui_deposit_window.h"
+#include <QValidator>
 
 Deposit::Deposit(s21::Controller *ctrl, QWidget *parent)
     : QDialog(parent), ui(new Ui::deposit), ctrl_(ctrl) {
@@ -14,6 +15,7 @@ Deposit::Deposit(s21::Controller *ctrl, QWidget *parent)
   for (QLineEdit *lineEdit : findChildren<QLineEdit *>()) {
     lineEdit->setValidator(new QDoubleValidator);
   }
+  ui->lineEdit_term->setValidator(new QIntValidator(1, 1200, this));
 }
 
 Deposit::~Deposit() { delete ui; }
@@ -90,6 +92,7 @@ void Deposit::on_pushButton_deposit1_clicked() {
 
 void Deposit::on_pushButton_calculate_clicked() {
   std::vector<double> result{};
+  std::cout << ui->lineEdit_term->text().toUInt() << std::endl;
   try {
     result = ctrl_->processDepositData(
         deposits_, withdraws_, ui->lineEdit_tax->text().toDouble(),
@@ -97,9 +100,9 @@ void Deposit::on_pushButton_calculate_clicked() {
         ui->lineEdit_term->text().toUInt(),
         ui->comboBox_withdrawInterval->currentIndex(),
         ui->checkBox_capitalize->isChecked());
-    ui->label_9->setText(QString::number((result[0]), 'f', 0));
-    ui->label_11->setText(QString::number((result[2]), 'f', 0));
-    ui->label_7->setText(QString::number((result[1]), 'f', 0));
+    ui->label_9->setText(QString::number((result[0]), 'f', 2));
+    ui->label_11->setText(QString::number((result[2]), 'f', 2));
+    ui->label_7->setText(QString::number((result[1]), 'f', 2));
   } catch (...) {
     ui->label_9->setText("Error");
   }
