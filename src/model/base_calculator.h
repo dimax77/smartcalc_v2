@@ -16,7 +16,7 @@
 namespace s21 {
 
 class Calculator : public BaseParser {
- public:
+public:
   ~Calculator() override{};
 
   void set_input_string(const std::string &raw) override { in_ = raw; }
@@ -53,11 +53,15 @@ class Calculator : public BaseParser {
         throw std::runtime_error("Unmatched braces.");
       move_operator_to_output_tokens();
     }
+    //    std::cout << output_tokens_.back() << std::endl;
     operators_.pop();
+    std::cout << postfix_string_ << std::endl;
     in_ = "";
   }
 
   void postfix_string() override {
+    if (output_tokens_.empty())
+      throw std::runtime_error("Malformed expression");
     while (!output_tokens_.empty()) {
       postfix_string_ += output_tokens_.front();
       postfix_string_ += " ";
@@ -66,99 +70,107 @@ class Calculator : public BaseParser {
   }
 
   double eval(double x) {
-    double number{}, res{};
-    int count = postfix_string_.length();
-    for (int i = 0; i < count; ++i) {
-      if (isdigit(postfix_string_[i])) {
-        std::size_t temp_idx{};
-        number = std::stod(postfix_string_.substr(i), &temp_idx);
-        stack_double_.push(number);
-        i += temp_idx - 1;
-      } else if (postfix_string_[i] == 'x') {
-        stack_double_.push(x);
-      } else if (strchr("-+*/m^", postfix_string_[i]) != nullptr) {
-        stack_double_.push(evalOperation(postfix_string_[i]));
-      } else if (strchr("aciloqstuv", postfix_string_[i]) != nullptr) {
-        stack_double_.push(evalFunction(postfix_string_[i]));
+
+    std::cout << postfix_string_ << std::endl;
+    try {
+      double value{}, result{};
+      int count = postfix_string_.length();
+      for (int i = 0; i < count; ++i) {
+        if (isdigit(postfix_string_[i])) {
+          std::size_t temp_idx{};
+          value = std::stod(postfix_string_.substr(i), &temp_idx);
+          stack_double_.push(value);
+          i += temp_idx - 1;
+        } else if (postfix_string_[i] == 'x') {
+          stack_double_.push(x);
+        } else if (strchr("-+*/m^", postfix_string_[i]) != nullptr) {
+          stack_double_.push(evalOperation(postfix_string_[i]));
+        } else if (strchr("aciloqstuv", postfix_string_[i]) != nullptr) {
+          stack_double_.push(evalFunction(postfix_string_[i]));
+        }
       }
+      result = stack_double_.top();
+      stack_double_.pop();
+      return result;
+    } catch (...) {
+      throw std::runtime_error("Malformed expression.");
     }
-    res = stack_double_.top();
-    stack_double_.pop();
-    return res;
   }
 
- private:
+private:
   std::stack<double> stack_double_;
 
   double evalOperation(char operation) {
-    double value1{}, value2{}, res{};
-    value2 = stack_double_.top();
+    double firstValue{}, secondValue{}, result{};
+    secondValue = stack_double_.top();
     stack_double_.pop();
-    value1 = stack_double_.top();
+    firstValue = stack_double_.top();
     stack_double_.pop();
     switch (operation) {
-      case '+':
-        res = value1 + value2;
-        break;
-      case '-':
-        res = value1 - value2;
-        break;
-      case '*':
-        res = value1 * value2;
-        break;
-      case '/':
-        res = value1 / value2;
-        break;
-      case 'm':
-        res = (int)value1 % (int)value2;
-        break;
-      case '^':
-        res = pow(value1, value2);
-        break;
+    case '+':
+      result = firstValue + secondValue;
+      break;
+    case '-':
+      result = firstValue - secondValue;
+      break;
+    case '*':
+      result = firstValue * secondValue;
+      break;
+    case '/':
+      result = firstValue / secondValue;
+      break;
+    case 'm':
+      result = (int)firstValue % (int)secondValue;
+      break;
+    case '^':
+      result = pow(firstValue, secondValue);
+      break;
     }
-    return res;
+    return result;
   }
 
   double evalFunction(char operation) {
-    double value{}, res{};
+    if (stack_double_.empty())
+      throw std::runtime_error("Malformed expression");
+    double value{}, result{};
     value = stack_double_.top();
     stack_double_.pop();
     switch (operation) {
-      case 'a':
-        res = acos(value);
-        break;
-      case 'c':
-        res = cos(value);
-        break;
-      case 's':
-        res = sin(value);
-        break;
-      case 't':
-        res = tan(value);
-        break;
-      case 'i':
-        res = asin(value);
-        break;
-      case 'q':
-        res = sqrt(value);
-        break;
-      case 'o':
-        res = log10f(value);
-        break;
-      case 'l':
-        res = log(value);
-        break;
-      case 'v':
-        res = atan(value);
-        break;
-      case 'u':
-        res = value * (-1);
-        break;
+    case 'a':
+      result = acos(value);
+      break;
+    case 'c':
+      result = cos(value);
+      break;
+    case 's':
+      result = sin(value);
+      break;
+    case 't':
+      result = tan(value);
+      break;
+    case 'i':
+      result = asin(value);
+      break;
+    case 'q':
+      result = sqrt(value);
+      break;
+    case 'o':
+      result = log10f(value);
+      break;
+    case 'l':
+      result = log(value);
+      break;
+    case 'v':
+      result = atan(value);
+      break;
+    case 'u':
+      result = value * (-1);
+      break;
     }
-    return res;
+    return result;
   }
 };
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // BASE_CALCULATOR_H_
+#endif // BASE_CALCULATOR_H_

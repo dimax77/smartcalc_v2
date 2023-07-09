@@ -4,15 +4,13 @@
 #include <vector>
 
 namespace s21 {
-class controller {
-private:
-  model *model_;
+class Controller {
 
 public:
-  controller(model *m) : model_(m){};
+  Controller(Model *m) : model_(m){};
   void set(const std::string &in) { model_->set_input_string(in); };
   double get_res(double x) { return model_->eval(x); }
-  bool translate(const std::string in) {
+  bool processRawString(const std::string in) {
     model_->set_input_string(in);
     model_->translate();
     model_->postfix_string();
@@ -32,6 +30,9 @@ public:
     return model_->processDeposit(deposit, cashback, tax, rate, term,
                                   payment_interval, capitalize);
   }
+
+private:
+  Model *model_;
 };
 }; // namespace s21
 

@@ -7,9 +7,7 @@
 #include "graph_window.h"
 #include <QKeyEvent>
 #include <QMainWindow>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 3)
 #include <QRegularExpression>
-#endif
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,29 +19,29 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
 public:
-  MainWindow(s21::controller *ctrl, QWidget *parent = nullptr);
+  MainWindow(s21::Controller *ctrl, QWidget *parent = nullptr);
   ~MainWindow();
 
 private slots:
   void handleButtonClicked();
-  void eval(QString raw_expression);
-  void on_pushButton_31_clicked();
-  void on_pushButton_32_clicked();
-  void on_pushButton_33_clicked();
-  void on_lineEdit_textChanged(const QString &text);
-  void on_lineEdit_2_textChanged(const QString &text);
+  void eval();
+  void on_push_button_credit_clicked();
+  void on_push_button_deposit_clicked();
+  void on_push_button_graph_clicked();
+  void on_line_edit_x_textChanged(const QString &text);
+  void on_line_edit_expression_textChanged(const QString &text);
 
-  void on_pushButton_clicked();
+  void on_push_button_set_x_clicked();
+  void reset();
 
 private:
   void keyPressEvent(QKeyEvent *event);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 3)
   static const QRegularExpression x_variable_;
-#endif
 
   Ui::MainWindow *ui;
-  s21::controller *ctrl_;
+  s21::Controller *ctrl_;
   QString raw_input_expression_{};
   double x_{};
+  bool was_error_{};
 };
 #endif // MAINWINDOW_H

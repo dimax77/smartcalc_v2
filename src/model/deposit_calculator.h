@@ -7,8 +7,8 @@
 #include "transaction.h"
 
 namespace s21 {
-class deposit_calculator {
- public:
+class DepositCalculator {
+public:
   void setDepositData(std::vector<std::pair<QDate, double>> depo,
                       std::vector<std::pair<QDate, double>> cash, double tax,
                       double rate, int term, int payment_int, bool capitalize) {
@@ -79,11 +79,11 @@ class deposit_calculator {
     return data;
   }
 
- private:
+private:
   double tax_{}, rate_{}, balance_{}, deposit_{};
   QDate startDate_{}, endDate_{};
   std::vector<Transaction *> transaction_{};
 };
-};  // namespace s21
+}; // namespace s21
 
-#endif  // DEPOSIT_CALCULATOR_H
+#endif // DEPOSIT_CALCULATOR_H

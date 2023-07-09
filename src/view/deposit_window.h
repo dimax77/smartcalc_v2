@@ -12,12 +12,12 @@ namespace Ui {
 class deposit;
 }
 
-class deposit : public QDialog {
+class Deposit : public QDialog {
   Q_OBJECT
 
 public:
-  explicit deposit(s21::controller *ctrl, QWidget *parent = nullptr);
-  ~deposit();
+  explicit Deposit(s21::Controller *ctrl, QWidget *parent = nullptr);
+  ~Deposit();
 
 private slots:
 
@@ -67,7 +67,7 @@ private slots:
 
 private:
   Ui::deposit *ui;
-  s21::controller *ctrl_;
+  s21::Controller *ctrl_;
   std::vector<std::pair<QDate, double>> deposits_{};
   std::vector<std::pair<QDate, double>> withdraws_{};
 

@@ -8,12 +8,12 @@ namespace Ui {
 class graph;
 }
 
-class graph : public QDialog {
+class Graph : public QDialog {
   Q_OBJECT
 
 public:
-  explicit graph(s21::controller *ctrl, QWidget *parent = nullptr);
-  ~graph();
+  explicit Graph(s21::Controller *ctrl, QWidget *parent = nullptr);
+  ~Graph();
   double xBegin, xEnd, yBegin, yEnd, h, X;
   int N;
 
@@ -25,7 +25,7 @@ private slots:
 
 private:
   Ui::graph *ui;
-  s21::controller *ctrl_;
+  s21::Controller *ctrl_;
   double x_{};
   QString raw_expr_{};
 };

@@ -2,6 +2,7 @@
 #define BASE_PARSER_H_
 
 #include <cstring>
+#include <iostream>
 #include <list>
 #include <stack>
 #include <stdexcept>
@@ -10,7 +11,7 @@
 namespace s21 {
 
 class BaseParser {
- public:
+public:
   virtual ~BaseParser(){};
 
   virtual void set_input_string(const std::string &raw) = 0;
@@ -19,7 +20,7 @@ class BaseParser {
 
   virtual void postfix_string() = 0;
 
- protected:
+protected:
   std::string in_{};
   std::string acceptable_tokens_after_digit_ = "-+*/)m^";
   std::string acceptable_tokens_after_op_ = "x0123456789cstaivloq(";
@@ -46,6 +47,8 @@ class BaseParser {
   }
 
   void move_operator_to_output_tokens() {
+    if (operators_.empty())
+      throw std::runtime_error("Malformed expression.");
     output_tokens_.push_back(std::string(1, operators_.top()));
     operators_.pop();
   }
@@ -59,7 +62,7 @@ class BaseParser {
     if (idx + 1 < size) {
       if (acceptable_tokens_after_digit_.find(in_[idx + 1]) ==
           std::string::npos) {
-        throw std::runtime_error("Malformed expression in number.");
+        throw std::runtime_error("Malformed expression.");
       }
     }
   }
@@ -69,7 +72,7 @@ class BaseParser {
       operators_.push(c);
       no_num = true;
     } else {
-      throw std::runtime_error("Malformed expression in function.");
+      throw std::runtime_error("Malformed expression.");
     }
   }
 
@@ -78,7 +81,7 @@ class BaseParser {
       operators_.push('u');
     } else {
       if (acceptable_tokens_after_op_.find(in_[idx + 1]) == std::string::npos) {
-        throw std::runtime_error("Malformed expression in operator.");
+        throw std::runtime_error("Malformed expression.");
       } else {
         while (precedence(c) <= precedence(operators_.top())) {
           move_operator_to_output_tokens();
@@ -91,7 +94,7 @@ class BaseParser {
 
   void processOpenBrace(std::size_t idx) {
     if (idx > 0 && (isdigit(in_[idx - 1]) || in_[idx - 1] == '.')) {
-      throw std::runtime_error("Malformed expression in open brace.");
+      throw std::runtime_error("Malformed expression.");
     }
     operators_.push('(');
   }
@@ -103,12 +106,13 @@ class BaseParser {
         throw std::runtime_error("Unmatched braces.");
       }
     }
+    std::cout << "Encountered closed brace" << std::endl;
     operators_.pop();
   }
 
   void processVariable() { output_tokens_.push_back("x"); }
 };
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // BASE_PARSER_H_
+#endif // BASE_PARSER_H_

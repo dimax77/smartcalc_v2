@@ -10,12 +10,12 @@ namespace Ui {
 class credit;
 }
 
-class credit : public QDialog {
+class Credit : public QDialog {
   Q_OBJECT
 
 public:
-  explicit credit(s21::controller *ctrl, QWidget *parent = nullptr);
-  ~credit();
+  explicit Credit(s21::Controller *ctrl, QWidget *parent = nullptr);
+  ~Credit();
 
 private slots:
   void on_pushButton_clicked();
@@ -27,7 +27,7 @@ private slots:
 
 private:
   Ui::credit *ui;
-  s21::controller *ctrl_;
+  s21::Controller *ctrl_;
 };
 
 #endif // CREDIT_WINDOW_H

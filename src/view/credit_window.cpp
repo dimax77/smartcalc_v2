@@ -2,7 +2,7 @@
 #include "QtMath"
 #include "ui_credit_window.h"
 
-credit::credit(s21::controller *ctrl, QWidget *parent)
+Credit::Credit(s21::Controller *ctrl, QWidget *parent)
     : QDialog(parent), ui(new Ui::credit), ctrl_(ctrl) {
   ui->setupUi(this);
   ui->groupBox->setVisible(0);
@@ -11,15 +11,15 @@ credit::credit(s21::controller *ctrl, QWidget *parent)
   ui->lineEdit_interestRate->setValidator(new QDoubleValidator);
 }
 
-credit::~credit() { delete ui; }
+Credit::~Credit() { delete ui; }
 
-void credit::enable_pushButton() {
+void Credit::enable_pushButton() {
   ui->pushButton->setEnabled(ui->lineEdit_term->hasAcceptableInput() &&
                              ui->lineEdit_interestRate->hasAcceptableInput() &&
                              ui->lineEdit_amount->hasAcceptableInput());
 }
 
-void credit::on_pushButton_clicked() {
+void Credit::on_pushButton_clicked() {
   double interestRate = ui->lineEdit_interestRate->text().toDouble();
   double amount = ui->lineEdit_amount->text().toDouble();
   double term = 0.0;
@@ -54,8 +54,8 @@ void credit::on_pushButton_clicked() {
   }
 }
 
-void credit::on_lineEdit_amount_textEdited() { enable_pushButton(); }
+void Credit::on_lineEdit_amount_textEdited() { enable_pushButton(); }
 
-void credit::on_lineEdit_interestRate_textEdited() { enable_pushButton(); }
+void Credit::on_lineEdit_interestRate_textEdited() { enable_pushButton(); }
 
-void credit::on_lineEdit_term_textEdited() { enable_pushButton(); }
+void Credit::on_lineEdit_term_textEdited() { enable_pushButton(); }

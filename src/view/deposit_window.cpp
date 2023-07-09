@@ -1,7 +1,7 @@
 #include "deposit_window.h"
 #include "ui_deposit_window.h"
 
-deposit::deposit(s21::controller *ctrl, QWidget *parent)
+Deposit::Deposit(s21::Controller *ctrl, QWidget *parent)
     : QDialog(parent), ui(new Ui::deposit), ctrl_(ctrl) {
   ui->setupUi(this);
   ui->groupBox_deposits->setVisible(0);
@@ -11,11 +11,14 @@ deposit::deposit(s21::controller *ctrl, QWidget *parent)
   ui->checkBox_capitalize->setChecked(1);
   deposits_.push_back({date, ui->lineEdit_amount->text().toDouble()});
   withdraws_.push_back({date, 0.0});
+  for (QLineEdit *lineEdit : findChildren<QLineEdit *>()) {
+    lineEdit->setValidator(new QDoubleValidator);
+  }
 }
 
-deposit::~deposit() { delete ui; }
+Deposit::~Deposit() { delete ui; }
 
-void deposit::on_pushButton_addDeposit_clicked() {
+void Deposit::on_pushButton_addDeposit_clicked() {
   if (!ui->groupBox_deposits->isVisible()) {
     ui->groupBox_deposits->setVisible(1);
     QDate date = (QDate::currentDate()).addMonths(1);
@@ -37,7 +40,7 @@ void deposit::on_pushButton_addDeposit_clicked() {
   }
 }
 
-void deposit::on_pushButton_cashBack_clicked() {
+void Deposit::on_pushButton_cashBack_clicked() {
   if (!ui->groupBox_withdraws->isVisible()) {
     ui->groupBox_withdraws->setVisible(1);
     QDate date = (QDate::currentDate()).addMonths(1);
@@ -59,13 +62,13 @@ void deposit::on_pushButton_cashBack_clicked() {
   }
 }
 
-void deposit::on_pushButton_deposit3_clicked() {
+void Deposit::on_pushButton_deposit3_clicked() {
   ui->groupBox_additionalDeposit3->setVisible(0);
   ui->pushButton_addDeposit->setEnabled(1);
   deposits_.pop_back();
 }
 
-void deposit::on_pushButton_deposit2_clicked() {
+void Deposit::on_pushButton_deposit2_clicked() {
   if (ui->groupBox_additionalDeposit3->isVisible()) {
     on_pushButton_deposit3_clicked();
   } else {
@@ -74,7 +77,7 @@ void deposit::on_pushButton_deposit2_clicked() {
   }
 }
 
-void deposit::on_pushButton_deposit1_clicked() {
+void Deposit::on_pushButton_deposit1_clicked() {
   if (ui->groupBox_additionalDeposit3->isVisible()) {
     on_pushButton_deposit3_clicked();
   } else if (ui->groupBox_additionalDeposit2->isVisible()) {
@@ -85,7 +88,7 @@ void deposit::on_pushButton_deposit1_clicked() {
   }
 }
 
-void deposit::on_pushButton_calculate_clicked() {
+void Deposit::on_pushButton_calculate_clicked() {
   std::vector<double> result{};
   try {
     result = ctrl_->processDepositData(
@@ -102,13 +105,13 @@ void deposit::on_pushButton_calculate_clicked() {
   }
 }
 
-void deposit::on_pushButton_cashback3_clicked() {
+void Deposit::on_pushButton_cashback3_clicked() {
   ui->groupBox_withdraw3->setVisible(0);
   ui->pushButton_cashBack->setEnabled(1);
   withdraws_.pop_back();
 }
 
-void deposit::on_pushButton_cashback2_clicked() {
+void Deposit::on_pushButton_cashback2_clicked() {
   if (ui->groupBox_withdraw3->isVisible()) {
     on_pushButton_cashback3_clicked();
   } else {
@@ -117,64 +120,64 @@ void deposit::on_pushButton_cashback2_clicked() {
   }
 }
 
-void deposit::on_dateEdit_deposit1_userDateChanged(const QDate &date) {
+void Deposit::on_dateEdit_deposit1_userDateChanged(const QDate &date) {
   deposits_[1].first = date;
 }
 
-void deposit::on_dateEdit_deposit2_userDateChanged(const QDate &date) {
+void Deposit::on_dateEdit_deposit2_userDateChanged(const QDate &date) {
   deposits_[2].first = date;
 }
 
-void deposit::on_dateEdit_deposit3_userDateChanged(const QDate &date) {
+void Deposit::on_dateEdit_deposit3_userDateChanged(const QDate &date) {
   deposits_[3].first = date;
 }
 
-void deposit::on_dateEdit_cashback1_userDateChanged(const QDate &date) {
+void Deposit::on_dateEdit_cashback1_userDateChanged(const QDate &date) {
   withdraws_[1].first = date;
 }
 
-void deposit::on_dateEdit_cashback2_userDateChanged(const QDate &date) {
+void Deposit::on_dateEdit_cashback2_userDateChanged(const QDate &date) {
   withdraws_[2].first = date;
 }
 
-void deposit::on_dateEdit_cashback3_userDateChanged(const QDate &date) {
+void Deposit::on_dateEdit_cashback3_userDateChanged(const QDate &date) {
   withdraws_[3].first = date;
 }
 
-double deposit::profit(double amount, int days, double rate) {
+double Deposit::profit(double amount, int days, double rate) {
   double res = amount * days * rate;
   return res;
 }
 
-void deposit::on_lineEdit_amount_textChanged(const QString &arg1) {
+void Deposit::on_lineEdit_amount_textChanged(const QString &arg1) {
   deposits_[0].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_deposit1_textChanged(const QString &arg1) {
+void Deposit::on_lineEdit_deposit1_textChanged(const QString &arg1) {
   deposits_[1].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_deposit2_textChanged(const QString &arg1) {
+void Deposit::on_lineEdit_deposit2_textChanged(const QString &arg1) {
   deposits_[2].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_deposit3_textChanged(const QString &arg1) {
+void Deposit::on_lineEdit_deposit3_textChanged(const QString &arg1) {
   deposits_[3].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_cashback1_textChanged(const QString &arg1) {
+void Deposit::on_lineEdit_cashback1_textChanged(const QString &arg1) {
   withdraws_[1].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_cashback2_textChanged(const QString &arg1) {
+void Deposit::on_lineEdit_cashback2_textChanged(const QString &arg1) {
   withdraws_[2].second = arg1.toDouble();
 }
 
-void deposit::on_lineEdit_cashback3_textChanged(const QString &arg1) {
+void Deposit::on_lineEdit_cashback3_textChanged(const QString &arg1) {
   withdraws_[3].second = arg1.toDouble();
 }
 
-void deposit::on_pushButton_cashback1_clicked() {
+void Deposit::on_pushButton_cashback1_clicked() {
   if (ui->groupBox_withdraw3->isVisible()) {
     on_pushButton_cashback3_clicked();
   } else if (ui->groupBox_withdraw2->isVisible()) {
