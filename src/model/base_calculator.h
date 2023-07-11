@@ -53,9 +53,7 @@ public:
         throw std::runtime_error("Unmatched braces.");
       move_operator_to_output_tokens();
     }
-    //    std::cout << output_tokens_.back() << std::endl;
     operators_.pop();
-    std::cout << postfix_string_ << std::endl;
     in_ = "";
   }
 
@@ -70,8 +68,6 @@ public:
   }
 
   double eval(double x) {
-
-    std::cout << postfix_string_ << std::endl;
     try {
       double value{}, result{};
       int count = postfix_string_.length();

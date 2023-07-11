@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "QValidator"
 #include "ui_mainwindow.h"
-#include <iostream>
 
 MainWindow::MainWindow(s21::Controller *ctrl, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), ctrl_(ctrl) {
@@ -29,7 +28,6 @@ void MainWindow::handleButtonClicked() {
   if (was_error_) {
     reset();
   }
-  std::cout << raw_input_expression_.toStdString() << std::endl;
   QPushButton *mybutton = qobject_cast<QPushButton *>(sender());
   QString text = mybutton->text();
   if (!text.isEmpty()) {
@@ -58,11 +56,9 @@ void MainWindow::reset() {
   ui->line_edit_expression->clear();
   raw_input_expression_.clear();
   was_error_ = false;
-  std::cout << "Data cleaned" << std::endl;
 }
 
 void MainWindow::eval() {
-  std::cout << raw_input_expression_.toStdString() << std::endl;
   try {
     ctrl_->processRawString(raw_input_expression_.toStdString());
     double result = ctrl_->get_res(x_);

@@ -2,7 +2,6 @@
 #define DEPOSIT_CALCULATOR_H
 #include <QDate>
 #include <QtMath>
-#include <iostream>
 #include <vector>
 
 #include "transaction.h"
@@ -17,11 +16,7 @@ public:
     balance_ = 0.0;
     startDate_ = depo[0].first;
     endDate_ = startDate_.addMonths((term));
-    std::cout << startDate_.toString().toStdString() << std::endl;
-    std::cout << endDate_.toString().toStdString() << std::endl;
     deposit_ = depo[0].second;
-
-    std::cout << deposit_ << std::endl;
 
     while (!depo.empty()) {
       Transaction *deposit = new Deposit(depo.back().first, depo.back().second);
@@ -51,11 +46,6 @@ public:
                 return t1->getDate() < t2->getDate();
               });
 
-    for (auto tr : transaction_) {
-      std::cout << (*tr).getDate().toString().toStdString() << " "
-                << (*tr).getAmount() << (*tr).getCapital() << std::endl;
-    }
-
     transaction_.erase(transaction_.begin() + 1);
     tax_ = tax;
     rate_ = rate;
@@ -72,10 +62,8 @@ public:
         if (nextTr != transaction_.end()) {
           duration = currentDate.daysTo((*nextTr)->getDate());
           currentDate = (*nextTr)->getDate();
-          std::cout << duration << std::endl;
         } else {
           duration = currentDate.daysTo(endDate_);
-          std::cout << duration << std::endl;
         };
         if (auto withdrawTr = dynamic_cast<Withdraw *>(*tr)) {
           totalWithdraw += withdrawTr->getAmount();
@@ -83,7 +71,6 @@ public:
           totalDeposit += depositTr->getAmount();
         }
 
-        std::cout << balance_ << std::endl;
         (*tr)->processTransaction(balance_, rate_, duration);
       }
 

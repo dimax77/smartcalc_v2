@@ -2,7 +2,6 @@
 #define BASE_PARSER_H_
 
 #include <cstring>
-#include <iostream>
 #include <list>
 #include <stack>
 #include <stdexcept>
@@ -107,7 +106,6 @@ protected:
         throw std::runtime_error("Unmatched braces.");
       }
     }
-    std::cout << "Encountered closed brace" << std::endl;
     operators_.pop();
   }
 

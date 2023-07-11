@@ -2,7 +2,6 @@
 #define TRANSACTION_H
 #include <QDate>
 #include <algorithm>
-#include <iostream>
 
 namespace s21 {
 class Transaction {
@@ -28,9 +27,7 @@ public:
   void processTransaction(double &balance, double rate, int days) override {
     if (this->capital_) {
       balance += balance * rate * days / 100 / 365;
-      std::cout << balance << std::endl;
     } else {
-      std::cout << amount_ << std::endl;
       balance += amount_;
       balance += balance * rate * days / 100 / 365;
     }

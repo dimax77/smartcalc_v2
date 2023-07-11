@@ -92,7 +92,6 @@ void Deposit::on_pushButton_deposit1_clicked() {
 
 void Deposit::on_pushButton_calculate_clicked() {
   std::vector<double> result{};
-  std::cout << ui->lineEdit_term->text().toUInt() << std::endl;
   try {
     result = ctrl_->processDepositData(
         deposits_, withdraws_, ui->lineEdit_tax->text().toDouble(),
