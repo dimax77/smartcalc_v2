@@ -104,6 +104,8 @@ private:
     double firstValue{}, secondValue{}, result{};
     secondValue = stack_double_.top();
     stack_double_.pop();
+    if (stack_double_.empty())
+      throw std::runtime_error("Missinig argument");
     firstValue = stack_double_.top();
     stack_double_.pop();
     switch (operation) {
