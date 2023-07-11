@@ -12,6 +12,7 @@ public:
       : date_(date), amount_(amount), capital_(capital) {}
   QDate getDate() { return date_; }
   double getAmount() { return amount_; }
+  bool getCapital() { return capital_; }
   virtual void processTransaction(double &balance, double rate, int days) = 0;
 
 protected:
@@ -22,14 +23,15 @@ protected:
 
 class Deposit : public Transaction {
 public:
-  Deposit(QDate date, double amount, bool capital)
+  Deposit(QDate date, double amount, bool capital = false)
       : Transaction(date, amount, capital) {}
   void processTransaction(double &balance, double rate, int days) override {
     if (this->capital_) {
       balance += balance * rate * days / 100 / 365;
       std::cout << balance << std::endl;
     } else {
-      balance += this->amount_;
+      std::cout << amount_ << std::endl;
+      balance += amount_;
       balance += balance * rate * days / 100 / 365;
     }
   }

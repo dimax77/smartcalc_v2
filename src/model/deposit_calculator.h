@@ -24,8 +24,7 @@ public:
     std::cout << deposit_ << std::endl;
 
     while (!depo.empty()) {
-      Transaction *deposit =
-          new Deposit(depo.back().first, depo.back().second, false);
+      Transaction *deposit = new Deposit(depo.back().first, depo.back().second);
       transaction_.push_back(deposit);
       depo.pop_back();
     };
@@ -52,6 +51,11 @@ public:
                 return t1->getDate() < t2->getDate();
               });
 
+    for (auto tr : transaction_) {
+      std::cout << (*tr).getDate().toString().toStdString() << " "
+                << (*tr).getAmount() << (*tr).getCapital() << std::endl;
+    }
+
     transaction_.erase(transaction_.begin() + 1);
     tax_ = tax;
     rate_ = rate;
@@ -75,9 +79,10 @@ public:
         };
         if (auto withdrawTr = dynamic_cast<Withdraw *>(*tr)) {
           totalWithdraw += withdrawTr->getAmount();
-        } else {
-          totalDeposit += (*tr)->getAmount();
+        } else if (auto depositTr = dynamic_cast<Deposit *>(*tr)) {
+          totalDeposit += depositTr->getAmount();
         }
+
         std::cout << balance_ << std::endl;
         (*tr)->processTransaction(balance_, rate_, duration);
       }
