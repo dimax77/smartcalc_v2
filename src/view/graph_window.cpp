@@ -4,6 +4,10 @@
 Graph::Graph(s21::Controller *ctrl, QWidget *parent)
     : QDialog(parent), ui(new Ui::graph), ctrl_(ctrl) {
   ui->setupUi(this);
+  for (QLineEdit *lineEdit : findChildren<QLineEdit *>()) {
+    lineEdit->setValidator(new QIntValidator(-1000000, 1000000, this));
+  }
+  //  ui->lineEdit_term->setValidator(new QIntValidator(1, 1200, this));
 }
 
 Graph::~Graph() { delete ui; }

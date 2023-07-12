@@ -9,7 +9,7 @@ Deposit::Deposit(s21::Controller *ctrl, QWidget *parent)
   ui->groupBox_withdraws->setVisible(0);
   QDate date = QDate::currentDate();
   ui->dateEdit_start->setDate(date);
-  ui->checkBox_capitalize->setChecked(1);
+  ui->checkBox_capitalize->setChecked(false);
   deposits_.push_back({date, ui->lineEdit_amount->text().toDouble()});
   withdraws_.push_back({date, 0.0});
   for (QLineEdit *lineEdit : findChildren<QLineEdit *>()) {

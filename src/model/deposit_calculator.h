@@ -15,7 +15,7 @@ public:
     transaction_.clear();
     balance_ = 0.0;
     startDate_ = depo[0].first;
-    endDate_ = startDate_.addMonths((term));
+    endDate_ = startDate_.addMonths(term);
     deposit_ = depo[0].second;
 
     while (!depo.empty()) {
