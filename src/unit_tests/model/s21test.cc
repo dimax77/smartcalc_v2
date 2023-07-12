@@ -36,7 +36,7 @@ class CalculatorWrapperTest : public ::testing::Test {
 };
 
 TEST_F(CalculatorWrapperTest, EmptyInputString) {
-  EXPECT_EQ(testCalc.get_postfix_string(), "");
+  ASSERT_THROW(testCalc.get_postfix_string(), std::runtime_error);
 }
 
 TEST_F(CalculatorWrapperTest, SingleNumber) {
