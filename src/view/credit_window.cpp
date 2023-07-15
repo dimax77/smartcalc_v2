@@ -32,7 +32,7 @@ void Credit::on_pushButton_clicked() {
   bool diff_type = ui->radioButton_diff->isChecked();
   try {
     auto result_data =
-        ctrl_->processCreditData(amount, interestRate, term, diff_type);
+        ctrl_->ProcessCreditData(amount, interestRate, term, diff_type);
     if (diff_type) {
       ui->label_monthlyPayment->setText(QString::number(result_data[0]));
       ui->label_monthlyPayment->setText(ui->label_monthlyPayment->text() +

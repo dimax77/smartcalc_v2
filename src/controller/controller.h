@@ -8,25 +8,27 @@ namespace s21 {
 class Controller {
  public:
   Controller(Model *m) : model_(m){};
-  void set(const std::string &in) { model_->set_input_string(in); };
+  void set_raw_string(const std::string &raw_string) {
+    model_->set_input_string(raw_string);
+  };
   double get_res(double x) { return model_->Eval(x); }
-  bool processRawString(const std::string in) {
-    model_->set_input_string(in);
+  bool ProcessRawString(const std::string raw_string) {
+    model_->set_input_string(raw_string);
     model_->Translate();
     model_->PostfixString();
     return true;
   }
 
-  std::vector<double> processCreditData(double amount, double interestRate,
+  std::vector<double> ProcessCreditData(double amount, double interestRate,
                                         int term, bool diff_type) {
-    return model_->processCredit(amount, interestRate, term, diff_type);
+    return model_->ProcessCredit(amount, interestRate, term, diff_type);
   }
 
-  std::vector<double> processDepositData(
+  std::vector<double> ProcessDepositData(
       std::vector<std::pair<QDate, double>> deposit,
       std::vector<std::pair<QDate, double>> cashback, double tax, double rate,
       int term, int payment_interval, bool capitalize) {
-    return model_->processDeposit(deposit, cashback, tax, rate, term,
+    return model_->ProcessDeposit(deposit, cashback, tax, rate, term,
                                   payment_interval, capitalize);
   }
 

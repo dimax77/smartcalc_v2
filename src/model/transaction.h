@@ -8,10 +8,10 @@ class Transaction {
  public:
   Transaction(QDate date, double amount, bool capital = false)
       : date_(date), amount_(amount), capital_(capital) {}
-  QDate getDate() { return date_; }
-  double getAmount() { return amount_; }
-  bool getCapital() { return capital_; }
-  virtual void processTransaction(double &balance, double rate, int days) = 0;
+  QDate get_date() { return date_; }
+  double get_amount() { return amount_; }
+  bool get_capital() { return capital_; }
+  virtual void ProcessTransaction(double &balance, double rate, int days) = 0;
 
  protected:
   QDate date_;
@@ -23,7 +23,7 @@ class Deposit : public Transaction {
  public:
   Deposit(QDate date, double amount, bool capital = false)
       : Transaction(date, amount, capital) {}
-  void processTransaction(double &balance, double rate, int days) override {
+  void ProcessTransaction(double &balance, double rate, int days) override {
     if (this->capital_) {
       balance += balance * rate * days / 100 / 365;
     } else {
@@ -36,7 +36,7 @@ class Deposit : public Transaction {
 class Withdraw : public Transaction {
  public:
   Withdraw(QDate date, double amount) : Transaction(date, amount) {}
-  void processTransaction(double &balance, double rate, int days) override {
+  void ProcessTransaction(double &balance, double rate, int days) override {
     balance -= this->amount_;
     balance += balance * rate * days / 100 / 365;
   }

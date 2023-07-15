@@ -10,19 +10,19 @@
 namespace s21 {
 class Model : public Calculator {
  public:
-  std::vector<double> processCredit(double amount, double interestRate,
+  std::vector<double> ProcessCredit(double amount, double interestRate,
                                     int term, bool diff_type) {
-    credit_.set_credit(term, amount, interestRate, diff_type);
-    return credit_.processCredit();
+    credit_.SetCreditData(term, amount, interestRate, diff_type);
+    return credit_.ProcessCredit();
   }
 
-  std::vector<double> processDeposit(std::vector<std::pair<QDate, double>> depo,
+  std::vector<double> ProcessDeposit(std::vector<std::pair<QDate, double>> depo,
                                      std::vector<std::pair<QDate, double>> cash,
                                      double tax, double rate, int term,
                                      int payment_int, bool capitalize) {
-    deposit_.setDepositData(depo, cash, tax, rate, term, payment_int,
+    deposit_.SetDepositData(depo, cash, tax, rate, term, payment_int,
                             capitalize);
-    return deposit_.processDeposit();
+    return deposit_.ProcessDeposit();
   }
 
  private:

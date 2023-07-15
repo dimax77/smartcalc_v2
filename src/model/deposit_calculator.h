@@ -9,7 +9,7 @@
 namespace s21 {
 class DepositCalculator {
  public:
-  void setDepositData(std::vector<std::pair<QDate, double>> depo,
+  void SetDepositData(std::vector<std::pair<QDate, double>> depo,
                       std::vector<std::pair<QDate, double>> cash, double tax,
                       double rate, int term, int payment_int, bool capitalize) {
     transaction_.clear();
@@ -43,7 +43,7 @@ class DepositCalculator {
 
     std::sort(transaction_.begin(), transaction_.end(),
               [](Transaction *t1, Transaction *t2) {
-                return t1->getDate() < t2->getDate();
+                return t1->get_date() < t2->get_date();
               });
 
     transaction_.erase(transaction_.begin() + 1);
@@ -51,7 +51,7 @@ class DepositCalculator {
     rate_ = rate;
   }
 
-  std::vector<double> processDeposit() {
+  std::vector<double> ProcessDeposit() {
     try {
       std::vector<double> data{};
       double totalWithdraw{}, totalDeposit{};
@@ -60,18 +60,18 @@ class DepositCalculator {
       for (auto tr = transaction_.begin(); tr != transaction_.end(); ++tr) {
         auto nextTr = std::next(tr);
         if (nextTr != transaction_.end()) {
-          duration = currentDate.daysTo((*nextTr)->getDate());
-          currentDate = (*nextTr)->getDate();
+          duration = currentDate.daysTo((*nextTr)->get_date());
+          currentDate = (*nextTr)->get_date();
         } else {
           duration = currentDate.daysTo(endDate_);
         };
         if (auto withdrawTr = dynamic_cast<Withdraw *>(*tr)) {
-          totalWithdraw += withdrawTr->getAmount();
+          totalWithdraw += withdrawTr->get_amount();
         } else if (auto depositTr = dynamic_cast<Deposit *>(*tr)) {
-          totalDeposit += depositTr->getAmount();
+          totalDeposit += depositTr->get_amount();
         }
 
-        (*tr)->processTransaction(balance_, rate_, duration);
+        (*tr)->ProcessTransaction(balance_, rate_, duration);
       }
 
       data.push_back(balance_);

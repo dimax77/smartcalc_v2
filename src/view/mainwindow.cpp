@@ -12,7 +12,7 @@ MainWindow::MainWindow(s21::Controller *ctrl, QWidget *parent)
     QPushButton *button = findChild<QPushButton *>(button_name);
     if (button) {
       connect(button, &QPushButton::clicked, this,
-              [this]() { handleButtonClicked(); });
+              [this]() { HandleButtonClicked(); });
     }
   }
 }
@@ -25,17 +25,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
   }
 }
 
-void MainWindow::handleButtonClicked() {
+void MainWindow::HandleButtonClicked() {
   if (was_error_) {
-    reset();
+    Reset();
   }
   QPushButton *mybutton = qobject_cast<QPushButton *>(sender());
   QString text = mybutton->text();
   if (!text.isEmpty()) {
     if (text == "C") {
-      reset();
+      Reset();
     } else if (text == "=") {
-      eval();
+      Eval();
     } else {
       if (text == "x^y") {
         ui->line_edit_expression->setText(ui->line_edit_expression->text() +=
@@ -52,16 +52,16 @@ void MainWindow::handleButtonClicked() {
   }
 }
 
-void MainWindow::reset() {
+void MainWindow::Reset() {
   ui->line_edit_x->clear();
   ui->line_edit_expression->clear();
   raw_input_expression_.clear();
   was_error_ = false;
 }
 
-void MainWindow::eval() {
+void MainWindow::Eval() {
   try {
-    ctrl_->processRawString(raw_input_expression_.toStdString());
+    ctrl_->ProcessRawString(raw_input_expression_.toStdString());
     double result = ctrl_->get_res(x_);
     ui->line_edit_expression->setText(QString::number(result));
     raw_input_expression_ = QString::number(result);

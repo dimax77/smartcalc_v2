@@ -8,7 +8,6 @@ Graph::Graph(s21::Controller *ctrl, QWidget *parent)
   for (QLineEdit *lineEdit : findChildren<QLineEdit *>()) {
     lineEdit->setValidator(new QIntValidator(-1000000, 1000000, this));
   }
-  //  ui->lineEdit_term->setValidator(new QIntValidator(1, 1200, this));
 }
 
 Graph::~Graph() { delete ui; }
@@ -32,7 +31,7 @@ void Graph::on_pushButton_plot_clicked() {
   ui->widget->yAxis->setRange(yBegin, yEnd);
   if (!raw_expr_.isEmpty()) {
     try {
-      ctrl_->processRawString(raw_expr_.toStdString());
+      ctrl_->ProcessRawString(raw_expr_.toStdString());
       for (X = xBegin; X <= xEnd; X += h) {
         x.push_back(X);
         double X_tmp = ctrl_->get_res(X);

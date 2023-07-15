@@ -24,8 +24,8 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 
  private slots:
-  void handleButtonClicked();
-  void eval();
+  void HandleButtonClicked();
+  void Eval();
   void on_push_button_credit_clicked();
   void on_push_button_deposit_clicked();
   void on_push_button_graph_clicked();
@@ -33,7 +33,7 @@ class MainWindow : public QMainWindow {
   void on_line_edit_expression_textChanged(const QString &text);
 
   void on_push_button_set_x_clicked();
-  void reset();
+  void Reset();
 
  private:
   void keyPressEvent(QKeyEvent *event);

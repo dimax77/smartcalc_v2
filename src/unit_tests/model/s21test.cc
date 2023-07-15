@@ -10,22 +10,22 @@ class CalculatorWrapper {
 
   ~CalculatorWrapper() { delete calculator_; }
 
-  void set_input_string(const std::string& raw) {
+  void set_input_string(const std::string &raw) {
     calculator_->set_input_string(raw);
   }
 
-  void translate() { calculator_->translate(); }
+  void Translate() { calculator_->Translate(); }
 
   std::string get_postfix_string() {
-    calculator_->translate();
-    calculator_->postfix_string();
+    calculator_->Translate();
+    calculator_->PostfixString();
     return calculator_->get_postfix_string();
   }
 
-  double evaluate(double x) { return calculator_->eval(x); }
+  double Evaluate(double x) { return calculator_->Eval(x); }
 
  private:
-  Calculator* calculator_;
+  Calculator *calculator_;
 };
 
 class CalculatorWrapperTest : public ::testing::Test {
@@ -51,7 +51,7 @@ TEST_F(CalculatorWrapperTest, SingleNumberWithTrailingZeroes) {
 
 TEST_F(CalculatorWrapperTest, IncorrectExpressionMultipleDecimals) {
   testCalc.set_input_string("12.5.0");
-  ASSERT_THROW(testCalc.translate(), std::runtime_error);
+  ASSERT_THROW(testCalc.Translate(), std::runtime_error);
 }
 
 TEST_F(CalculatorWrapperTest, SimpleExpression) {
@@ -67,7 +67,7 @@ TEST_F(CalculatorWrapperTest, ComplexExpression) {
 
 TEST_F(CalculatorWrapperTest, ComplexExpression2) {
   testCalc.set_input_string("(3+4)*(2-1)/5/");
-  ASSERT_THROW(testCalc.translate(), std::runtime_error);
+  ASSERT_THROW(testCalc.Translate(), std::runtime_error);
 }
 
 TEST_F(CalculatorWrapperTest, NestedBracketsDepth1) {
@@ -90,12 +90,12 @@ TEST_F(CalculatorWrapperTest, NestedBracketsDepth3) {
 
 TEST_F(CalculatorWrapperTest, IncorrectExpressionMissingClosingBracket) {
   testCalc.set_input_string("(1+2*3");
-  ASSERT_THROW(testCalc.translate(), std::runtime_error);
+  ASSERT_THROW(testCalc.Translate(), std::runtime_error);
 }
 
 TEST_F(CalculatorWrapperTest, IncorrectExpressionExtraClosingBracket) {
   testCalc.set_input_string("(1+2)*3)");
-  ASSERT_THROW(testCalc.translate(), std::runtime_error);
+  ASSERT_THROW(testCalc.Translate(), std::runtime_error);
 }
 
 TEST_F(CalculatorWrapperTest, ComplexExpressionWithCos) {
@@ -126,12 +126,12 @@ TEST_F(CalculatorWrapperTest, ComplexExpressionWithMod) {
 TEST_F(CalculatorWrapperTest, SimpleEval) {
   testCalc.set_input_string("0.2*0.1");
   EXPECT_EQ(testCalc.get_postfix_string(), "0.200000 0.100000 * ");
-  EXPECT_TRUE((testCalc.evaluate(0.0) - 0.02) < 0.0000001);
+  EXPECT_TRUE((testCalc.Evaluate(0.0) - 0.02) < 0.0000001);
 }
 
 }  // namespace s21
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

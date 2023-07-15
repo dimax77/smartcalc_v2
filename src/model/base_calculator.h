@@ -19,7 +19,9 @@ class Calculator : public BaseParser {
  public:
   ~Calculator() override{};
 
-  void set_input_string(const std::string &raw) override { input_string_ = raw; }
+  void set_input_string(const std::string &raw) override {
+    input_string_ = raw;
+  }
 
   std::string get_postfix_string() { return postfix_string_; }
 

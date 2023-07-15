@@ -56,6 +56,10 @@ test:
 	g++ unit_tests/model/s21test.cc $(TESTS_FLAGS) -o $(UNIT)
 	./$(UNIT)
 	rm -rf $(UNIT)
+	clang-format -style=Google -dump-config > .clang-format
+	clang-format -n controller/*.* model/*.* view/*.* libs/qcustomplot/*.*
+	rm .clang-format
+
 
 clang:
 	cp ../materials/linters/.clang-format ./model

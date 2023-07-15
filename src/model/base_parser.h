@@ -79,7 +79,8 @@ class BaseParser {
       operators_.push('u');
     } else if (c == '+' && no_num) {
     } else {
-      if (acceptable_tokens_after_op_.find(input_string_[idx + 1]) == std::string::npos) {
+      if (acceptable_tokens_after_op_.find(input_string_[idx + 1]) ==
+          std::string::npos) {
         throw std::runtime_error("Malformed expression.");
       } else {
         while (Precedence(c) <= Precedence(operators_.top())) {
@@ -92,7 +93,8 @@ class BaseParser {
   }
 
   void ProcessOpenBrace(std::size_t idx) {
-    if (idx > 0 && (isdigit(input_string_[idx - 1]) || input_string_[idx - 1] == '.')) {
+    if (idx > 0 &&
+        (isdigit(input_string_[idx - 1]) || input_string_[idx - 1] == '.')) {
       throw std::runtime_error("Malformed expression.");
     }
     operators_.push('(');
