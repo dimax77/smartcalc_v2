@@ -15,58 +15,58 @@ class BaseParser {
 
   virtual void set_input_string(const std::string &raw) = 0;
 
-  virtual void translate() = 0;
+  virtual void Translate() = 0;
 
-  virtual void postfix_string() = 0;
+  virtual void PostfixString() = 0;
 
  protected:
-  std::string in_{};
+  std::string input_string_{};
   std::string acceptable_tokens_after_digit_ = "-+*/)m^";
   std::string acceptable_tokens_after_op_ = "x0123456789cstaivloq(";
   std::string postfix_string_{};
   std::stack<char> operators_{};
   std::list<std::string> output_tokens_{};
 
-  bool is_operator(char c) { return strchr("-+*/^m", c) != nullptr; }
+  bool IsOperator(char c) { return strchr("-+*/^m", c) != nullptr; }
 
-  bool is_func(char c) { return strchr("cstaivloqu", c) != nullptr; }
+  bool IsFunc(char c) { return strchr("cstaivloqu", c) != nullptr; }
 
-  int precedence(char op) {
+  int Precedence(char op) {
     if (op == '+' || op == '-') {
       return 1;
     } else if (op == '*' || op == '/' || op == 'm') {
       return 2;
     } else if (op == '^') {
       return 3;
-    } else if (is_func(op)) {
+    } else if (IsFunc(op)) {
       return 4;
     } else {
       return 0;
     }
   }
 
-  void move_operator_to_output_tokens() {
+  void MoveOperatorToOutputTokens() {
     if (operators_.empty()) throw std::runtime_error("Malformed expression.");
     output_tokens_.push_back(std::string(1, operators_.top()));
     operators_.pop();
   }
 
-  void processNumber(std::size_t &idx, std::size_t &temp_idx, bool &no_num,
+  void ProcessNumber(std::size_t &idx, std::size_t &temp_idx, bool &no_num,
                      std::size_t size) {
-    double n = std::stod(in_.substr(idx), &temp_idx);
+    double n = std::stod(input_string_.substr(idx), &temp_idx);
     output_tokens_.push_back(std::to_string(n));
     no_num = false;
     idx += (temp_idx - 1);
     if (idx + 1 < size) {
-      if (acceptable_tokens_after_digit_.find(in_[idx + 1]) ==
+      if (acceptable_tokens_after_digit_.find(input_string_[idx + 1]) ==
           std::string::npos) {
         throw std::runtime_error("Malformed expression.");
       }
     }
   }
 
-  void processFunction(char c, std::size_t idx, bool &no_num) {
-    if (isdigit(in_[idx + 1]) || in_[idx + 1] == '(') {
+  void ProcessFunction(char c, std::size_t idx, bool &no_num) {
+    if (isdigit(input_string_[idx + 1]) || input_string_[idx + 1] == '(') {
       operators_.push(c);
       no_num = true;
     } else {
@@ -74,16 +74,16 @@ class BaseParser {
     }
   }
 
-  void processOperator(char c, std::size_t idx, bool &no_num) {
+  void ProcessOperator(char c, std::size_t idx, bool &no_num) {
     if (c == '-' && no_num) {
       operators_.push('u');
     } else if (c == '+' && no_num) {
     } else {
-      if (acceptable_tokens_after_op_.find(in_[idx + 1]) == std::string::npos) {
+      if (acceptable_tokens_after_op_.find(input_string_[idx + 1]) == std::string::npos) {
         throw std::runtime_error("Malformed expression.");
       } else {
-        while (precedence(c) <= precedence(operators_.top())) {
-          move_operator_to_output_tokens();
+        while (Precedence(c) <= Precedence(operators_.top())) {
+          MoveOperatorToOutputTokens();
         }
         operators_.push(c);
         no_num = true;
@@ -91,16 +91,16 @@ class BaseParser {
     }
   }
 
-  void processOpenBrace(std::size_t idx) {
-    if (idx > 0 && (isdigit(in_[idx - 1]) || in_[idx - 1] == '.')) {
+  void ProcessOpenBrace(std::size_t idx) {
+    if (idx > 0 && (isdigit(input_string_[idx - 1]) || input_string_[idx - 1] == '.')) {
       throw std::runtime_error("Malformed expression.");
     }
     operators_.push('(');
   }
 
-  void processCloseBrace() {
+  void ProcessCloseBrace() {
     while (operators_.top() != '(') {
-      move_operator_to_output_tokens();
+      MoveOperatorToOutputTokens();
       if (operators_.top() == 'S') {
         throw std::runtime_error("Unmatched braces.");
       }
@@ -108,7 +108,7 @@ class BaseParser {
     operators_.pop();
   }
 
-  void processVariable() { output_tokens_.push_back("x"); }
+  void ProcessVariable() { output_tokens_.push_back("x"); }
 };
 
 }  // namespace s21

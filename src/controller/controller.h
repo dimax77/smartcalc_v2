@@ -9,11 +9,11 @@ class Controller {
  public:
   Controller(Model *m) : model_(m){};
   void set(const std::string &in) { model_->set_input_string(in); };
-  double get_res(double x) { return model_->eval(x); }
+  double get_res(double x) { return model_->Eval(x); }
   bool processRawString(const std::string in) {
     model_->set_input_string(in);
-    model_->translate();
-    model_->postfix_string();
+    model_->Translate();
+    model_->PostfixString();
     return true;
   }
 

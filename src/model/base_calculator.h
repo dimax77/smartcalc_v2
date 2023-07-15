@@ -19,29 +19,29 @@ class Calculator : public BaseParser {
  public:
   ~Calculator() override{};
 
-  void set_input_string(const std::string &raw) override { in_ = raw; }
+  void set_input_string(const std::string &raw) override { input_string_ = raw; }
 
   std::string get_postfix_string() { return postfix_string_; }
 
-  void translate() override {
+  void Translate() override {
     postfix_string_ = "";
-    std::size_t size = in_.length(), idx{}, temp_idx{};
+    std::size_t size = input_string_.length(), idx{}, temp_idx{};
     bool no_num = true;
     operators_.push('S');
     while (idx < size) {
-      char c = in_[idx];
+      char c = input_string_[idx];
       if (isdigit(c)) {
-        processNumber(idx, temp_idx, no_num, size);
-      } else if (is_func(c)) {
-        processFunction(c, idx, no_num);
-      } else if (is_operator(c)) {
-        processOperator(c, idx, no_num);
+        ProcessNumber(idx, temp_idx, no_num, size);
+      } else if (IsFunc(c)) {
+        ProcessFunction(c, idx, no_num);
+      } else if (IsOperator(c)) {
+        ProcessOperator(c, idx, no_num);
       } else if (c == '(') {
-        processOpenBrace(idx);
+        ProcessOpenBrace(idx);
       } else if (c == ')') {
-        processCloseBrace();
+        ProcessCloseBrace();
       } else if (c == 'x') {
-        processVariable();
+        ProcessVariable();
         no_num = false;
       } else {
         throw std::runtime_error("Unknown symbol");
@@ -51,13 +51,13 @@ class Calculator : public BaseParser {
     while (operators_.top() != 'S') {
       if (operators_.top() == '(')
         throw std::runtime_error("Unmatched braces.");
-      move_operator_to_output_tokens();
+      MoveOperatorToOutputTokens();
     }
     operators_.pop();
-    in_ = "";
+    input_string_ = "";
   }
 
-  void postfix_string() override {
+  void PostfixString() override {
     if (output_tokens_.empty())
       throw std::runtime_error("Malformed expression");
     while (!output_tokens_.empty()) {
@@ -67,7 +67,7 @@ class Calculator : public BaseParser {
     }
   }
 
-  double eval(double x) {
+  double Eval(double x) {
     try {
       double value{}, result{};
       int count = postfix_string_.length();
@@ -80,9 +80,9 @@ class Calculator : public BaseParser {
         } else if (postfix_string_[i] == 'x') {
           stack_double_.push(x);
         } else if (strchr("-+*/m^", postfix_string_[i]) != nullptr) {
-          stack_double_.push(evalOperation(postfix_string_[i]));
+          stack_double_.push(EvalOperation(postfix_string_[i]));
         } else if (strchr("aciloqstuv", postfix_string_[i]) != nullptr) {
-          stack_double_.push(evalFunction(postfix_string_[i]));
+          stack_double_.push(EvalFunction(postfix_string_[i]));
         }
       }
       result = stack_double_.top();
@@ -96,7 +96,7 @@ class Calculator : public BaseParser {
  private:
   std::stack<double> stack_double_;
 
-  double evalOperation(char operation) {
+  double EvalOperation(char operation) {
     double firstValue{}, secondValue{}, result{};
     secondValue = stack_double_.top();
     stack_double_.pop();
@@ -126,7 +126,7 @@ class Calculator : public BaseParser {
     return result;
   }
 
-  double evalFunction(char operation) {
+  double EvalFunction(char operation) {
     if (stack_double_.empty()) throw std::runtime_error("Malformed expression");
     double value{}, result{};
     value = stack_double_.top();
