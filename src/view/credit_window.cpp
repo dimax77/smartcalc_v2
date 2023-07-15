@@ -1,4 +1,5 @@
 #include "credit_window.h"
+
 #include "QtMath"
 #include "ui_credit_window.h"
 

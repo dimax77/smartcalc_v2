@@ -1,4 +1,5 @@
 #include "graph_window.h"
+
 #include "ui_graph_window.h"
 
 Graph::Graph(s21::Controller *ctrl, QWidget *parent)

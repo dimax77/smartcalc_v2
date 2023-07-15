@@ -1,13 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QKeyEvent>
+#include <QMainWindow>
+#include <QRegularExpression>
+
 #include "../controller/controller.h"
 #include "credit_window.h"
 #include "deposit_window.h"
 #include "graph_window.h"
-#include <QKeyEvent>
-#include <QMainWindow>
-#include <QRegularExpression>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,11 +19,11 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
-public:
+ public:
   MainWindow(s21::Controller *ctrl, QWidget *parent = nullptr);
   ~MainWindow();
 
-private slots:
+ private slots:
   void handleButtonClicked();
   void eval();
   void on_push_button_credit_clicked();
@@ -34,7 +35,7 @@ private slots:
   void on_push_button_set_x_clicked();
   void reset();
 
-private:
+ private:
   void keyPressEvent(QKeyEvent *event);
   static const QRegularExpression x_variable_;
 
@@ -44,4 +45,4 @@ private:
   double x_{};
   bool was_error_{};
 };
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

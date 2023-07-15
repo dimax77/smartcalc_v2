@@ -1,12 +1,13 @@
 #ifndef DEPOSIT_WINDOW_H
 #define DEPOSIT_WINDOW_H
 
+#include <QDialog>
+#include <vector>
+
 #include "../controller/controller.h"
 #include "QDateEdit"
 #include "QHBoxLayout"
 #include "QLineEdit"
-#include <QDialog>
-#include <vector>
 
 namespace Ui {
 class deposit;
@@ -15,11 +16,11 @@ class deposit;
 class Deposit : public QDialog {
   Q_OBJECT
 
-public:
+ public:
   explicit Deposit(s21::Controller *ctrl, QWidget *parent = nullptr);
   ~Deposit();
 
-private slots:
+ private slots:
 
   void on_pushButton_addDeposit_clicked();
 
@@ -65,7 +66,7 @@ private slots:
 
   void on_pushButton_cashback1_clicked();
 
-private:
+ private:
   Ui::deposit *ui;
   s21::Controller *ctrl_;
   std::vector<std::pair<QDate, double>> deposits_{};
@@ -74,4 +75,4 @@ private:
   double profit(double amount, int days, double rate);
 };
 
-#endif // DEPOSIT_WINDOW_H
+#endif  // DEPOSIT_WINDOW_H

@@ -1,6 +1,8 @@
 #include "deposit_window.h"
-#include "ui_deposit_window.h"
+
 #include <QValidator>
+
+#include "ui_deposit_window.h"
 
 Deposit::Deposit(s21::Controller *ctrl, QWidget *parent)
     : QDialog(parent), ui(new Ui::deposit), ctrl_(ctrl) {
