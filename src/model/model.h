@@ -9,7 +9,7 @@
 
 namespace s21 {
 class Model : public Calculator {
-public:
+ public:
   std::vector<double> processCredit(double amount, double interestRate,
                                     int term, bool diff_type) {
     credit_.set_credit(term, amount, interestRate, diff_type);
@@ -25,9 +25,9 @@ public:
     return deposit_.processDeposit();
   }
 
-private:
+ private:
   s21::CreditCalculator credit_{};
   s21::DepositCalculator deposit_{};
 };
-};     // namespace s21
-#endif // MODEL_H
+};      // namespace s21
+#endif  // MODEL_H

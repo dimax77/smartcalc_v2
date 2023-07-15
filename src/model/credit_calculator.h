@@ -6,10 +6,9 @@
 
 namespace s21 {
 class CreditCalculator {
-public:
+ public:
   void set_credit(int srok, double summa, double stavka, bool diff_type) {
-    if (srok < 1 || summa <= 0)
-      throw "Error";
+    if (srok < 1 || summa <= 0) throw "Error";
     srok_ = srok;
     summa_credita_ = summa;
     stavka_ = stavka;
@@ -25,10 +24,8 @@ public:
         current_payment = (main_part + ostatok * int_rate);
         ostatok -= main_part;
         summa += current_payment;
-        if (i == 0)
-          result_data.push_back(current_payment);
-        if (i == srok_ - 1)
-          result_data.push_back(current_payment);
+        if (i == 0) result_data.push_back(current_payment);
+        if (i == srok_ - 1) result_data.push_back(current_payment);
       }
       result_data.push_back(summa);
       result_data.push_back(summa - summa_credita_);
@@ -43,12 +40,12 @@ public:
     return result_data;
   }
 
-private:
+ private:
   int srok_{};
   double summa_credita_{};
   double stavka_{};
   bool diff_type_{};
 };
-}; // namespace s21
+};  // namespace s21
 
-#endif // CREDIT_CALCULATOR_H
+#endif  // CREDIT_CALCULATOR_H

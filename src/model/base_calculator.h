@@ -16,7 +16,7 @@
 namespace s21 {
 
 class Calculator : public BaseParser {
-public:
+ public:
   ~Calculator() override{};
 
   void set_input_string(const std::string &raw) override { in_ = raw; }
@@ -93,82 +93,80 @@ public:
     }
   }
 
-private:
+ private:
   std::stack<double> stack_double_;
 
   double evalOperation(char operation) {
     double firstValue{}, secondValue{}, result{};
     secondValue = stack_double_.top();
     stack_double_.pop();
-    if (stack_double_.empty())
-      throw std::runtime_error("Missinig argument");
+    if (stack_double_.empty()) throw std::runtime_error("Missinig argument");
     firstValue = stack_double_.top();
     stack_double_.pop();
     switch (operation) {
-    case '+':
-      result = firstValue + secondValue;
-      break;
-    case '-':
-      result = firstValue - secondValue;
-      break;
-    case '*':
-      result = firstValue * secondValue;
-      break;
-    case '/':
-      result = firstValue / secondValue;
-      break;
-    case 'm':
-      result = (int)firstValue % (int)secondValue;
-      break;
-    case '^':
-      result = pow(firstValue, secondValue);
-      break;
+      case '+':
+        result = firstValue + secondValue;
+        break;
+      case '-':
+        result = firstValue - secondValue;
+        break;
+      case '*':
+        result = firstValue * secondValue;
+        break;
+      case '/':
+        result = firstValue / secondValue;
+        break;
+      case 'm':
+        result = (int)firstValue % (int)secondValue;
+        break;
+      case '^':
+        result = pow(firstValue, secondValue);
+        break;
     }
     return result;
   }
 
   double evalFunction(char operation) {
-    if (stack_double_.empty())
-      throw std::runtime_error("Malformed expression");
+    if (stack_double_.empty()) throw std::runtime_error("Malformed expression");
     double value{}, result{};
     value = stack_double_.top();
     stack_double_.pop();
     switch (operation) {
-    case 'a':
-      result = acos(value);
-      break;
-    case 'c':
-      result = cos(value);
-      break;
-    case 's':
-      result = sin(value);
-      break;
-    case 't':
-      result = tan(value);
-      break;
-    case 'i':
-      result = asin(value);
-      break;
-    case 'q':
-      result = sqrt(value);
-      break;
-    case 'o':
-      result = log10f(value);
-      break;
-    case 'l':
-      result = log(value);
-      break;
-    case 'v':
-      result = atan(value);
-      break;
-    case 'u':
-      result = value * (-1);
-      break;
+      case 'a':
+        result = acos(value);
+        break;
+      case 'c':
+        result = cos(value);
+        break;
+      case 's':
+        result = sin(value);
+        break;
+      case 't':
+        result = tan(value);
+        break;
+      case 'i':
+        result = asin(value);
+        break;
+      case 'q':
+        result = sqrt(value);
+        break;
+      case 'o':
+        result = log10f(value);
+        break;
+      case 'l':
+        result = log(value);
+        break;
+      case 'v':
+        result = atan(value);
+        break;
+      case 'u':
+        result = value * (-1);
+        break;
     }
     return result;
   }
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // BASE_CALCULATOR_H_
+#endif  // BASE_CALCULATOR_H_
