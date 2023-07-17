@@ -2,10 +2,10 @@
 #define BASE_PARSER_H_
 
 #include <cstring>
+#include <iostream>
 #include <list>
 #include <stack>
 #include <stdexcept>
-#include <string>
 
 namespace s21 {
 
@@ -53,14 +53,18 @@ class BaseParser {
 
   void ProcessNumber(std::size_t &idx, std::size_t &temp_idx, bool &no_num,
                      std::size_t size) {
+    std::locale originalLocale = std::locale();
+    std::locale decimalLocale("C");
+    std::locale::global(decimalLocale);
     double n = std::stod(input_string_.substr(idx), &temp_idx);
+    std::locale::global(originalLocale);
     output_tokens_.push_back(std::to_string(n));
     no_num = false;
     idx += (temp_idx - 1);
     if (idx + 1 < size) {
       if (acceptable_tokens_after_digit_.find(input_string_[idx + 1]) ==
           std::string::npos) {
-        throw std::runtime_error("Malformed expression.");
+        throw std::runtime_error("Wrong number.");
       }
     }
   }

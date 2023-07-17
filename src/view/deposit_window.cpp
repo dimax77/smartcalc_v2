@@ -105,6 +105,8 @@ void Deposit::on_pushButton_calculate_clicked() {
     ui->label_11->setText(QString::number((result[2]), 'f', 2));
     ui->label_7->setText(QString::number((result[1]), 'f', 2));
   } catch (...) {
+    ui->label_7->setText("Error");
+    ui->label_11->setText("Error");
     ui->label_9->setText("Error");
   }
 }

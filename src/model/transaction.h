@@ -8,6 +8,7 @@ class Transaction {
  public:
   Transaction(QDate date, double amount, bool capital = false)
       : date_(date), amount_(amount), capital_(capital) {}
+  virtual ~Transaction() = default;
   QDate get_date() { return date_; }
   double get_amount() { return amount_; }
   bool get_capital() { return capital_; }

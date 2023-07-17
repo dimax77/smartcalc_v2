@@ -91,7 +91,7 @@ class Calculator : public BaseParser {
       stack_double_.pop();
       return result;
     } catch (...) {
-      throw std::runtime_error("Malformed expression.");
+      throw std::runtime_error("Wrong expr.");
     }
   }
 

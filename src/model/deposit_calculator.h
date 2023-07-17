@@ -9,6 +9,11 @@
 namespace s21 {
 class DepositCalculator {
  public:
+  ~DepositCalculator() {
+    for (auto transaction : transaction_) {
+      delete transaction;
+    }
+  }
   void SetDepositData(std::vector<std::pair<QDate, double>> depo,
                       std::vector<std::pair<QDate, double>> cash, double tax,
                       double rate, int term, int payment_int, bool capitalize) {
@@ -17,6 +22,7 @@ class DepositCalculator {
     startDate_ = depo[0].first;
     endDate_ = startDate_.addMonths(term);
     deposit_ = depo[0].second;
+    if (deposit_ <= 0) throw std::runtime_error("Wrong deposit amount");
 
     while (!depo.empty()) {
       Transaction *deposit = new Deposit(depo.back().first, depo.back().second);
@@ -70,7 +76,8 @@ class DepositCalculator {
         } else if (auto depositTr = dynamic_cast<Deposit *>(*tr)) {
           totalDeposit += depositTr->get_amount();
         }
-
+        if (deposit_ < totalWithdraw)
+          throw std::runtime_error("Withdraw cannot be greater than deposit.");
         (*tr)->ProcessTransaction(balance_, rate_, duration);
       }
 
