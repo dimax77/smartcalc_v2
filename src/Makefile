@@ -66,12 +66,6 @@ clang:
 	clang-format -n model/*.h
 	rm model/.clang-format
 
-gcov_report:
-	g++ unit_tests/model/s21test.cc $(TESTS_FLAGS) $(GCOV) -o $(UNIT)
-	./$(UNIT)
-	lcov -t "test" -o test.info -c -d .
-	genhtml -o report test.info
-	open report/index.html
 
 dist:
 	@echo "Creating distribution archive..."
